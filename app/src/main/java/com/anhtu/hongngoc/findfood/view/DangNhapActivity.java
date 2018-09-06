@@ -11,7 +11,14 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.anhtu.hongngoc.findfood.R;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -19,13 +26,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class DangNhapActivity extends AppCompatActivity implements View.OnClickListener, FirebaseAuth.AuthStateListener{
 
     private Button btnDangNhapGoogle;
+    private Button btnDangNhapFacebook;
 
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
@@ -36,6 +49,9 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
     // [END declare_auth]
 
     private GoogleSignInClient mGoogleSignInClient;
+    private CallbackManager mCallbackFacebook;
+    private LoginManager loginManagerFacebook;
+    private List<String> permissionFacebook = Arrays.asList("email","public_profile");
 
 
     @Override
@@ -46,10 +62,17 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
 
         // [START initialize_auth]
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.signOut();
         // [END initialize_auth]
+        mCallbackFacebook = CallbackManager.Factory.create();
+        loginManagerFacebook = LoginManager.getInstance();
 
         btnDangNhapGoogle = (Button) findViewById(R.id.btnDangNhapGoogle);
+        btnDangNhapFacebook = (Button) findViewById(R.id.btnDangNhapFacebook);
+
+
         btnDangNhapGoogle.setOnClickListener(this);
+        btnDangNhapFacebook.setOnClickListener(this);
 
         taoClientDangNhapGoogle();
     }
@@ -75,6 +98,31 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
+    private void dangNhapFacebook(){
+        loginManagerFacebook.logInWithReadPermissions(this, permissionFacebook);
+        loginManagerFacebook.registerCallback(mCallbackFacebook, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                KIEMTRA_PROVIDER_DANGNHAP = 2;
+                Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                chungThucDangNhapFireBase(null, loginResult.getAccessToken());
+            }
+
+            @Override
+            public void onCancel() {
+                Log.d(TAG, "facebook:onCancel");
+                // ...
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.d(TAG, "facebook:onError", error);
+                // ...
+            }
+        });
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -85,23 +133,27 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
                 try {
                     // Google Sign In was successful, authenticate with Firebase
                     GoogleSignInAccount account = task.getResult(ApiException.class);
-                    chungThucDangNhapFireBase(account);
+                    chungThucDangNhapFireBase(account,null);
                 } catch (ApiException e) {
                     // Google Sign In failed, update UI appropriately
                     Log.w(TAG, "Google sign in failed", e);
                     // ...
                 };
             }
+        }else{
+            //mCallbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
 
-    private void chungThucDangNhapFireBase(GoogleSignInAccount account) {
+    private void chungThucDangNhapFireBase(GoogleSignInAccount account, AccessToken token) {
         if (KIEMTRA_PROVIDER_DANGNHAP == 1) {
             // Lấy stokenID đã đăng nhập bằng google để đăng nhập trên Firebase
             Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
-
             AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
             firebaseAuth.signInWithCredential(credential);
+        }else if(KIEMTRA_PROVIDER_DANGNHAP == 2){
+            AuthCredential authCredential = FacebookAuthProvider.getCredential(token.getToken());
+            firebaseAuth.signInWithCredential(authCredential);
         }
     }
 
@@ -123,6 +175,9 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
         switch (id) {
             case R.id.btnDangNhapGoogle:
                 dangNhapGoogle();
+                break;
+            case R.id.btnDangNhapFacebook:
+                dangNhapFacebook();
                 break;
         }
     }
