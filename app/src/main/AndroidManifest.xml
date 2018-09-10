@@ -30,6 +30,10 @@
 
         </activity>
 
+        <activity android:name=".view.DangKyActivity">
+
+        </activity>
+
     </application>
 
 </manifest>

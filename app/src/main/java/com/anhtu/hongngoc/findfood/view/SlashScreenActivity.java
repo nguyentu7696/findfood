@@ -31,6 +31,7 @@ public class SlashScreenActivity extends AppCompatActivity {
                 public void run() {
                     Intent iDangNhap = new Intent(SlashScreenActivity.this, DangNhapActivity.class);
                     startActivity(iDangNhap);
+                    finish();
                 }
             },2000);
 

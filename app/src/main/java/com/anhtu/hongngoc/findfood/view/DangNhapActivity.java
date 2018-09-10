@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anhtu.hongngoc.findfood.R;
@@ -37,6 +38,7 @@ import java.util.List;
 
 public class DangNhapActivity extends AppCompatActivity implements View.OnClickListener, FirebaseAuth.AuthStateListener{
 
+    private TextView txtDangKyMoi,txtQuenMatKhau;
     private Button btnDangNhapGoogle;
     private Button btnDangNhapFacebook;
 
@@ -69,10 +71,12 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
 
         btnDangNhapGoogle = (Button) findViewById(R.id.btnDangNhapGoogle);
         btnDangNhapFacebook = (Button) findViewById(R.id.btnDangNhapFacebook);
+        txtDangKyMoi = (TextView) findViewById(R.id.txtDangKyMoi);
 
 
         btnDangNhapGoogle.setOnClickListener(this);
         btnDangNhapFacebook.setOnClickListener(this);
+        txtDangKyMoi.setOnClickListener(this);
 
         taoClientDangNhapGoogle();
     }
@@ -178,6 +182,10 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.btnDangNhapFacebook:
                 dangNhapFacebook();
+                break;
+            case R.id.txtDangKyMoi:
+                Intent iDangKy = new Intent(DangNhapActivity.this,DangKyActivity.class);
+                startActivity(iDangKy);
                 break;
         }
     }
