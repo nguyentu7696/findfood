@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,8 +26,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,6 +44,9 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
     private TextView txtDangKyMoi,txtQuenMatKhau;
     private Button btnDangNhapGoogle;
     private Button btnDangNhapFacebook;
+    private Button btnDangNhap;
+    private EditText edEmail,edPassword;
+
 
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
@@ -71,12 +77,19 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
 
         btnDangNhapGoogle = (Button) findViewById(R.id.btnDangNhapGoogle);
         btnDangNhapFacebook = (Button) findViewById(R.id.btnDangNhapFacebook);
+        btnDangNhap = (Button)findViewById(R.id.btnDangNhap);
+        edEmail = (EditText) findViewById(R.id.edEmailDN);
+        edPassword = (EditText) findViewById(R.id.edPasswordDN);
         txtDangKyMoi = (TextView) findViewById(R.id.txtDangKyMoi);
+        txtQuenMatKhau = (TextView) findViewById(R.id.txtQuenMatKhau);
+
 
 
         btnDangNhapGoogle.setOnClickListener(this);
         btnDangNhapFacebook.setOnClickListener(this);
         txtDangKyMoi.setOnClickListener(this);
+        btnDangNhap.setOnClickListener(this);
+        txtQuenMatKhau.setOnClickListener(this);
 
         taoClientDangNhapGoogle();
     }
@@ -173,6 +186,20 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
         firebaseAuth.removeAuthStateListener(this);
     }
 
+
+    private void dangNhap(){
+        String email = edEmail.getText().toString();
+        String matkhau = edPassword.getText().toString();
+        firebaseAuth.signInWithEmailAndPassword(email,matkhau).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(!task.isSuccessful()){
+                    Toast.makeText(DangNhapActivity.this,getString(R.string.thongbaodangnhapthatbai),Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -187,6 +214,12 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
                 Intent iDangKy = new Intent(DangNhapActivity.this,DangKyActivity.class);
                 startActivity(iDangKy);
                 break;
+            case R.id.btnDangNhap:
+                dangNhap();
+                break;
+            case R.id.txtQuenMatKhau:
+                Intent iKhoiPhucMatKhau = new Intent(DangNhapActivity.this, KhoiPhucMatKhauActivity.class);
+                startActivity(iKhoiPhucMatKhau);
         }
     }
 

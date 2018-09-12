@@ -1,9 +1,11 @@
 package com.anhtu.hongngoc.findfood.view;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,12 +23,14 @@ public class DangKyActivity extends AppCompatActivity implements View.OnClickLis
     private Button btnDangKy;
     private EditText edEmailDK, edPasswordDK, edNhapLaiPasswordDK;
     private FirebaseAuth firebaseAuth;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_dangky);
 
+        progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
 
         btnDangKy = (Button) findViewById(R.id.btnDangKy);
@@ -45,21 +49,27 @@ public class DangKyActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        progressDialog.setMessage(getString(R.string.dangxuly));
+        progressDialog.setIndeterminate(true);
+
+
 
         final String email = edEmailDK.getText().toString();
         String matkhau = edPasswordDK.getText().toString();
         String nhaplaimatkhau = edNhapLaiPasswordDK.getText().toString();
         String thongbaoloi = getString(R.string.thongbaoloidangky);
+        boolean kiemtraEmail = kiemtraEmail(email);
 
-        if (email.trim().length() == 0) {
+        if ( !kiemtraEmail ) {
             thongbaoloi += getString(R.string.email);
             Toast.makeText(this, thongbaoloi, Toast.LENGTH_SHORT).show();
-        } else if (matkhau.trim().length() == 0) {
+        } else if (matkhau.trim().length() < 6) {
             thongbaoloi += getString(R.string.matkhau);
             Toast.makeText(this, thongbaoloi, Toast.LENGTH_SHORT).show();
         } else if (!nhaplaimatkhau.equals(matkhau)) {
             Toast.makeText(this, getString(R.string.thongbaonhaplaimatkhau), Toast.LENGTH_SHORT).show();
         } else {
+            progressDialog.show();
             firebaseAuth.createUserWithEmailAndPassword(email, matkhau)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -68,6 +78,7 @@ public class DangKyActivity extends AppCompatActivity implements View.OnClickLis
                                 // Sign in success, update UI with the signed-in user's information
                                 FirebaseUser user = firebaseAuth.getCurrentUser();
                                 Toast.makeText(DangKyActivity.this , "Authentication Successful.", Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Toast.makeText(DangKyActivity.this, "Authentication failed.",
@@ -76,6 +87,10 @@ public class DangKyActivity extends AppCompatActivity implements View.OnClickLis
                         }
                     });
         }
+    }
+
+    private boolean kiemtraEmail(String email){
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
 }
