@@ -1,5 +1,7 @@
 package com.anhtu.hongngoc.findfood.Adapters;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +14,9 @@ import android.widget.TextView;
 
 import com.anhtu.hongngoc.findfood.R;
 import com.anhtu.hongngoc.findfood.model.QuanAnModel;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -69,11 +74,24 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
     }
 
     @Override
-    public void onBindViewHolder(AdapterRecyclerOdau.ViewHolder holder, int position) {
+    public void onBindViewHolder(final AdapterRecyclerOdau.ViewHolder holder, int position) {
         QuanAnModel quanAnModel = quanAnModelList.get(position);
         holder.txtTenQuanAnOdau.setText(quanAnModel.getTenquanan());
         if(quanAnModel.isGiaohang()){
             holder.btnDatMonOdau.setVisibility(View.VISIBLE);
+        }
+        if(quanAnModel.getHinhanhquanan().size() > 0){
+            StorageReference storageHinhAnh = FirebaseStorage.getInstance().getReference()
+                    .child("hinhquanan")
+                    .child(quanAnModel.getHinhanhquanan().get(0));
+            final long ONE_MEGABYTE = 1024 * 1024;
+            storageHinhAnh.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0, bytes.length);
+                    holder.imageHinhQuanAnODau.setImageBitmap(bitmap);
+                }
+            });
         }
     }
 
