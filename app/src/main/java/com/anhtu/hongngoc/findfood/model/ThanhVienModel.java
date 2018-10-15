@@ -9,6 +9,7 @@ public class ThanhVienModel {
 
     private String hoten;
     private String hinhanh;
+    private String mathanhvien;
 
     public ThanhVienModel(){
         dataNodeThanhVien = FirebaseDatabase.getInstance().getReference().child("thanhviens");
@@ -28,6 +29,14 @@ public class ThanhVienModel {
 
     public void setHinhanh(String hinhanh) {
         this.hinhanh = hinhanh;
+    }
+
+    public String getMathanhvien() {
+        return mathanhvien;
+    }
+
+    public void setMathanhvien(String mathanhvien) {
+        this.mathanhvien = mathanhvien;
     }
 
     public void ThemThongTinThanhVien(ThanhVienModel thanhVienModel, String uid){

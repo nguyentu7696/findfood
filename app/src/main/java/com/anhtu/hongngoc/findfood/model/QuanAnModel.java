@@ -18,6 +18,7 @@ public class QuanAnModel {
     private String giodongcua,giomocua,tenquanan,videogioithieu,maquanan;
     private List<String> tienich;
     private List<String> hinhanhquanan;
+    private List<BinhLuanModel> binhLuanModelList;
 
 
     private long giatoida;
@@ -119,6 +120,14 @@ public class QuanAnModel {
         this.luotthich = luotthich;
     }
 
+    public List<BinhLuanModel> getBinhLuanModelList() {
+        return binhLuanModelList;
+    }
+
+    public void setBinhLuanModelList(List<BinhLuanModel> binhLuanModelList) {
+        this.binhLuanModelList = binhLuanModelList;
+    }
+
     public void getDanhSachQuanAn(final OdauInterface odauInterface){
 
         ValueEventListener valueEventListener = new ValueEventListener() {
@@ -126,6 +135,8 @@ public class QuanAnModel {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 dataRoot = dataSnapshot;
                 DataSnapshot dataSnapshotQuanAn = dataSnapshot.child("quanans");
+
+                //lấy danh sách quán ăn
                 for(DataSnapshot valueQuanAn: dataSnapshotQuanAn.getChildren()){
                     QuanAnModel quanAnModel = valueQuanAn.getValue(QuanAnModel.class);
                     quanAnModel.setMaquanan(valueQuanAn.getKey());
@@ -140,6 +151,27 @@ public class QuanAnModel {
                     }
                     quanAnModel.setHinhanhquanan(hinhanhlist);
 
+
+                    //Lấy danh sách bình luân của quán ăn
+                    DataSnapshot snapshotBinhLuan = dataSnapshot.child("binhluans").child(quanAnModel.getMaquanan());
+                    List<BinhLuanModel> binhLuanModels = new ArrayList<>();
+
+                    for (DataSnapshot valueBinhLuan : snapshotBinhLuan.getChildren()){
+                        BinhLuanModel binhLuanModel = valueBinhLuan.getValue(BinhLuanModel.class);
+                        binhLuanModel.setManbinhluan(valueBinhLuan.getKey());
+                        ThanhVienModel thanhVienModel = dataSnapshot.child("thanhviens").child(binhLuanModel.getMauser()).getValue(ThanhVienModel.class);
+                        binhLuanModel.setThanhVienModel(thanhVienModel);
+
+                        List<String> hinhanhBinhLuanList = new ArrayList<>();
+                        DataSnapshot snapshotNodeHinhAnhBL = dataSnapshot.child("hinhanhbinhluans").child(binhLuanModel.getManbinhluan());
+                        for (DataSnapshot valueHinhBinhLuan : snapshotNodeHinhAnhBL.getChildren()){
+                            hinhanhBinhLuanList.add(valueHinhBinhLuan.getValue(String.class));
+                        }
+                        binhLuanModel.setHinhanhBinhLuanList(hinhanhBinhLuanList);
+
+                        binhLuanModels.add(binhLuanModel);
+                    }
+                    quanAnModel.setBinhLuanModelList(binhLuanModels);
 
 
                     odauInterface.getDanhSachQuanAnModel(quanAnModel);
