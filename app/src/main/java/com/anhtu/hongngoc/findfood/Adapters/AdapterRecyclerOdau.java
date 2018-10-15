@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.anhtu.hongngoc.findfood.R;
+import com.anhtu.hongngoc.findfood.model.BinhLuanModel;
 import com.anhtu.hongngoc.findfood.model.QuanAnModel;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -93,6 +94,59 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
                 }
             });
         }
+
+        //Lấy danh sách bình luận của quán ăn
+        if(quanAnModel.getBinhLuanModelList().size() > 0){
+
+            BinhLuanModel binhLuanModel = quanAnModel.getBinhLuanModelList().get(0);
+            holder.txtTieudebinhluan.setText(binhLuanModel.getTieude());
+            holder.txtNodungbinhluan.setText(binhLuanModel.getNoidung());
+            holder.txtChamDiemBinhLuan.setText(binhLuanModel.getChamdiem() + "");
+            setHinhAnhBinhLuan(holder.cicleImageUser,binhLuanModel.getThanhVienModel().getHinhanh());
+
+            if(quanAnModel.getBinhLuanModelList().size() > 2) {
+                BinhLuanModel binhLuanModel2 = quanAnModel.getBinhLuanModelList().get(1);
+                holder.txtTieudebinhluan2.setText(binhLuanModel2.getTieude());
+                holder.txtNodungbinhluan2.setText(binhLuanModel2.getNoidung());
+                holder.txtChamDiemBinhLuan2.setText(binhLuanModel2.getChamdiem() + "");
+                setHinhAnhBinhLuan(holder.cicleImageUser2, binhLuanModel2.getThanhVienModel().getHinhanh());
+            }
+            holder.txtTongBinhLuan.setText(quanAnModel.getBinhLuanModelList().size() + "");
+
+            int tongsohinhbinhluan = 0;
+            double tongdiem = 0;
+            //Tính tổng điểm trung bình của bình luận và đếm tổng số hình của bình luận
+            for (BinhLuanModel binhLuanModel1 : quanAnModel.getBinhLuanModelList()){
+                tongsohinhbinhluan += binhLuanModel1.getHinhanhBinhLuanList().size();
+                tongdiem += binhLuanModel1.getChamdiem();
+            }
+
+            double diemtrungbinh = tongdiem/quanAnModel.getBinhLuanModelList().size();
+            holder.txtDiemTrungBinhQuanAn.setText(String.format("%.1f",diemtrungbinh));
+
+            if(tongsohinhbinhluan > 0){
+                holder.txtTongHinhBinhLuan.setText(tongsohinhbinhluan + "");
+            }
+
+        }else{
+            holder.containerBinhLuan.setVisibility(View.GONE);
+            holder.containerBinhLuan2.setVisibility(View.GONE);
+        }
+
+    }
+
+
+    private void setHinhAnhBinhLuan(final CircleImageView circleImageView, String linkhinh){
+        StorageReference storageHinhUser = FirebaseStorage.getInstance().getReference()
+                .child("thanhvien").child(linkhinh);
+        long ONE_MEGABYTE = 1024 * 1024;
+        storageHinhUser.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                circleImageView.setImageBitmap(bitmap);
+            }
+        });
     }
 
     @Override
