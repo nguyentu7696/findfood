@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.anhtu.hongngoc.findfood.R;
 import com.anhtu.hongngoc.findfood.controller.OdauController;
@@ -18,6 +19,7 @@ import java.security.interfaces.RSAPublicKey;
 public class OdauFragment extends Fragment{
     private OdauController odauController;
     private RecyclerView recyclerOdau;
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -25,9 +27,10 @@ public class OdauFragment extends Fragment{
         View view = inflater.inflate(R.layout.layout_fragment_odau, container, false);
 
         recyclerOdau = (RecyclerView) view.findViewById(R.id.recyclerOdau);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBarODau);
 
         odauController = new OdauController(getContext());
-        odauController.getDanhSachQuanAnController(recyclerOdau, getContext());
+        odauController.getDanhSachQuanAnController(recyclerOdau, getContext(), progressBar);
 
         return view;
     }
