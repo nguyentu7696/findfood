@@ -56,6 +56,24 @@ public class SlashScreenActivity extends AppCompatActivity {
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        try {
+            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(),0);
+            txtPhienBan.setText( getString(R.string.phienban) + packageInfo.versionName);
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent iDangNhap = new Intent(SlashScreenActivity.this, DangNhapActivity.class);
+                    startActivity(iDangNhap);
+                    finish();
+                }
+            },2000);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -83,23 +101,6 @@ public class SlashScreenActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
 
-                try {
-                    PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(),0);
-                    txtPhienBan.setText( getString(R.string.phienban) + packageInfo.versionName);
-
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent iDangNhap = new Intent(SlashScreenActivity.this, DangNhapActivity.class);
-                            startActivity(iDangNhap);
-                            finish();
-                        }
-                    },2000);
-
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                }
             }
         });
     }
