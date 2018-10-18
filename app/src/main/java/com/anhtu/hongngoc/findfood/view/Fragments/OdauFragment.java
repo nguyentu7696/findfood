@@ -1,5 +1,8 @@
 package com.anhtu.hongngoc.findfood.view.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +23,7 @@ public class OdauFragment extends Fragment{
     private OdauController odauController;
     private RecyclerView recyclerOdau;
     private ProgressBar progressBar;
+    private SharedPreferences sharedPreferences;
 
     @Nullable
     @Override
@@ -29,8 +33,13 @@ public class OdauFragment extends Fragment{
         recyclerOdau = (RecyclerView) view.findViewById(R.id.recyclerOdau);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBarODau);
 
+        sharedPreferences = getContext().getSharedPreferences("toado", Context.MODE_PRIVATE);
+        Location vitrihientai = new Location("");
+        vitrihientai.setLatitude(Double.parseDouble(sharedPreferences.getString("latitude","0")));
+        vitrihientai.setLongitude(Double.parseDouble(sharedPreferences.getString("longitude","0")));
+
         odauController = new OdauController(getContext());
-        odauController.getDanhSachQuanAnController(recyclerOdau, getContext(), progressBar);
+        odauController.getDanhSachQuanAnController(recyclerOdau, getContext(), progressBar, vitrihientai);
 
         return view;
     }

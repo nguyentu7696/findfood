@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.anhtu.hongngoc.findfood.R;
 import com.anhtu.hongngoc.findfood.model.BinhLuanModel;
+import com.anhtu.hongngoc.findfood.model.ChiNhanhQuanAnModel;
 import com.anhtu.hongngoc.findfood.model.QuanAnModel;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -133,6 +134,18 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
             holder.containerBinhLuan2.setVisibility(View.GONE);
         }
 
+        //Lấy chi nhánh quán ăn và hiển thị địa chỉ và km
+        if(quanAnModel.getChiNhanhQuanAnModelList().size() > 0){
+            ChiNhanhQuanAnModel chiNhanhQuanAnModelTam = quanAnModel.getChiNhanhQuanAnModelList().get(0);
+            for (ChiNhanhQuanAnModel chiNhanhQuanAnModel : quanAnModel.getChiNhanhQuanAnModelList()){
+                if(chiNhanhQuanAnModelTam.getKhoangcach() > chiNhanhQuanAnModel.getKhoangcach()){
+                    chiNhanhQuanAnModelTam = chiNhanhQuanAnModel;
+                }
+            }
+
+            holder.txtDiaChiQuanAnODau.setText(chiNhanhQuanAnModelTam.getDiachi());
+            holder.txtKhoanCachQuanAnODau.setText(String.format("%.1f",chiNhanhQuanAnModelTam.getKhoangcach()) + " km");
+        }
     }
 
 

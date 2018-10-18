@@ -1,6 +1,7 @@
 package com.anhtu.hongngoc.findfood.controller;
 
 import android.content.Context;
+import android.location.Location;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -25,7 +26,7 @@ public class OdauController {
         this.quanAnModel = new QuanAnModel();
     }
 
-    public void getDanhSachQuanAnController(RecyclerView recyclerOdau, Context context, final ProgressBar progressBar){
+    public void getDanhSachQuanAnController(RecyclerView recyclerOdau, Context context, final ProgressBar progressBar, Location vitrihientai){
 
         final List<QuanAnModel> quanAnModelList = new ArrayList<>();
 
@@ -42,6 +43,6 @@ public class OdauController {
                 progressBar.setVisibility(View.GONE);
             }
         };
-        quanAnModel.getDanhSachQuanAn(odauInterface);
+        quanAnModel.getDanhSachQuanAn(odauInterface, vitrihientai);
     }
 }

@@ -1,5 +1,6 @@
 package com.anhtu.hongngoc.findfood.model;
 
+import android.location.Location;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -19,6 +20,7 @@ public class QuanAnModel {
     private List<String> tienich;
     private List<String> hinhanhquanan;
     private List<BinhLuanModel> binhLuanModelList;
+    private List<ChiNhanhQuanAnModel> chiNhanhQuanAnModelList;
 
 
     private long giatoida;
@@ -128,7 +130,15 @@ public class QuanAnModel {
         this.binhLuanModelList = binhLuanModelList;
     }
 
-    public void getDanhSachQuanAn(final OdauInterface odauInterface){
+    public List<ChiNhanhQuanAnModel> getChiNhanhQuanAnModelList() {
+        return chiNhanhQuanAnModelList;
+    }
+
+    public void setChiNhanhQuanAnModelList(List<ChiNhanhQuanAnModel> chiNhanhQuanAnModelList) {
+        this.chiNhanhQuanAnModelList = chiNhanhQuanAnModelList;
+    }
+
+    public void getDanhSachQuanAn(final OdauInterface odauInterface, final Location vitrihientai){
 
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
@@ -173,6 +183,23 @@ public class QuanAnModel {
                     }
                     quanAnModel.setBinhLuanModelList(binhLuanModels);
 
+                    //Lấy chi nhánh quán ăn
+                    DataSnapshot snapshotChiNhanhQuanAn = dataSnapshot.child("chinhanhquanans").child(quanAnModel.getMaquanan());
+                    List<ChiNhanhQuanAnModel> chiNhanhQuanAnModels = new ArrayList<>();
+
+                    for (DataSnapshot valueChiNhanhQuanAn : snapshotChiNhanhQuanAn.getChildren()){
+                        ChiNhanhQuanAnModel chiNhanhQuanAnModel = valueChiNhanhQuanAn.getValue(ChiNhanhQuanAnModel.class);
+                        Location vitriquanan = new Location("");
+                        vitriquanan.setLatitude(chiNhanhQuanAnModel.getLatitude());
+                        vitriquanan.setLongitude(chiNhanhQuanAnModel.getLongitude());
+
+                        double khoangcach = vitrihientai.distanceTo(vitriquanan)/1000;
+                        chiNhanhQuanAnModel.setKhoangcach(khoangcach);
+
+                        chiNhanhQuanAnModels.add(chiNhanhQuanAnModel);
+                    }
+
+                    quanAnModel.setChiNhanhQuanAnModelList(chiNhanhQuanAnModels);
 
                     odauInterface.getDanhSachQuanAnModel(quanAnModel);
                 }
