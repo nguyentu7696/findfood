@@ -2,6 +2,8 @@ package com.anhtu.hongngoc.findfood.model;
 
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -15,7 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuanAnModel {
+public class QuanAnModel implements Parcelable{
     private boolean giaohang;
     private String giodongcua,giomocua,tenquanan,videogioithieu,maquanan;
     private List<String> tienich;
@@ -35,6 +37,37 @@ public class QuanAnModel {
     public QuanAnModel(){
         nodeRoot = FirebaseDatabase.getInstance().getReference();
     }
+
+    protected QuanAnModel(Parcel in) {
+        giaohang = in.readByte() != 0;
+        giodongcua = in.readString();
+        giomocua = in.readString();
+        tenquanan = in.readString();
+        videogioithieu = in.readString();
+        maquanan = in.readString();
+        tienich = in.createStringArrayList();
+        hinhanhquanan = in.createStringArrayList();
+//        bitmapList = in.createTypedArrayList(Bitmap.CREATOR);
+        giatoida = in.readLong();
+        giatoithieu = in.readLong();
+        luotthich = in.readLong();
+        chiNhanhQuanAnModelList = new ArrayList<ChiNhanhQuanAnModel>();
+        in.readTypedList(chiNhanhQuanAnModelList,ChiNhanhQuanAnModel.CREATOR);
+        binhLuanModelList = new ArrayList<BinhLuanModel>();
+        in.readTypedList(binhLuanModelList,BinhLuanModel.CREATOR);
+    }
+
+    public static final Creator<QuanAnModel> CREATOR = new Creator<QuanAnModel>() {
+        @Override
+        public QuanAnModel createFromParcel(Parcel in) {
+            return new QuanAnModel(in);
+        }
+
+        @Override
+        public QuanAnModel[] newArray(int size) {
+            return new QuanAnModel[size];
+        }
+    };
 
     public boolean isGiaohang() {
         return giaohang;
@@ -242,5 +275,28 @@ public class QuanAnModel {
 
             odauInterface.getDanhSachQuanAnModel(quanAnModel);
         }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte((byte) (giaohang ? 1 : 0));
+        dest.writeString(giodongcua);
+        dest.writeString(giomocua);
+        dest.writeString(tenquanan);
+        dest.writeString(videogioithieu);
+        dest.writeString(maquanan);
+        dest.writeStringList(tienich);
+        dest.writeStringList(hinhanhquanan);
+//        dest.writeTypedList(bitmapList);
+        dest.writeLong(giatoida);
+        dest.writeLong(giatoithieu);
+        dest.writeLong(luotthich);
+        dest.writeTypedList(chiNhanhQuanAnModelList);
+        dest.writeTypedList(binhLuanModelList);
     }
 }
