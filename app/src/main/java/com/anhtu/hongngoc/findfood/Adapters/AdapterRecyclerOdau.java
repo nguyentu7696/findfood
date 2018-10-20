@@ -1,5 +1,7 @@
 package com.anhtu.hongngoc.findfood.Adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.CardView;
@@ -16,6 +18,7 @@ import com.anhtu.hongngoc.findfood.R;
 import com.anhtu.hongngoc.findfood.model.BinhLuanModel;
 import com.anhtu.hongngoc.findfood.model.ChiNhanhQuanAnModel;
 import com.anhtu.hongngoc.findfood.model.QuanAnModel;
+import com.anhtu.hongngoc.findfood.view.ChiTietQuanAnActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -28,10 +31,12 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
 
     private List<QuanAnModel> quanAnModelList;
     private int resource;
+    private Context context;
 
-    public AdapterRecyclerOdau(List<QuanAnModel> quanAnModelList, int resource ){
+    public AdapterRecyclerOdau(Context context,List<QuanAnModel> quanAnModelList, int resource ){
         this.quanAnModelList = quanAnModelList;
         this.resource = resource;
+        this.context = context;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -77,7 +82,7 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
 
     @Override
     public void onBindViewHolder(final AdapterRecyclerOdau.ViewHolder holder, int position) {
-        QuanAnModel quanAnModel = quanAnModelList.get(position);
+        final QuanAnModel quanAnModel = quanAnModelList.get(position);
         holder.txtTenQuanAnOdau.setText(quanAnModel.getTenquanan());
         if(quanAnModel.isGiaohang()){
             holder.btnDatMonOdau.setVisibility(View.VISIBLE);
@@ -136,6 +141,15 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
             holder.txtDiaChiQuanAnODau.setText(chiNhanhQuanAnModelTam.getDiachi());
             holder.txtKhoanCachQuanAnODau.setText(String.format("%.1f",chiNhanhQuanAnModelTam.getKhoangcach()) + " km");
         }
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iChiTietQuanAn = new Intent(context, ChiTietQuanAnActivity.class);
+                iChiTietQuanAn.putExtra("quanan",quanAnModel);
+                context.startActivity(iChiTietQuanAn);
+            }
+        });
     }
 
 

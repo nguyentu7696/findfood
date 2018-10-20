@@ -39,7 +39,7 @@ public class OdauController {
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerOdau.setLayoutManager(layoutManager);
-        adapterRecyclerOdau = new AdapterRecyclerOdau(quanAnModelList, R.layout.custom_layout_recyclerview_odau);
+        adapterRecyclerOdau = new AdapterRecyclerOdau(context,quanAnModelList, R.layout.custom_layout_recyclerview_odau);
         recyclerOdau.setAdapter(adapterRecyclerOdau);
 
         progressBar.setVisibility(View.VISIBLE);
