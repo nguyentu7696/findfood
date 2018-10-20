@@ -1,9 +1,12 @@
 package com.anhtu.hongngoc.findfood.view;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,8 +18,12 @@ import android.widget.TextView;
 
 import android.widget.VideoView;
 
+import com.anhtu.hongngoc.findfood.Adapters.ApdaterBinhLuan;
 import com.anhtu.hongngoc.findfood.R;
 import com.anhtu.hongngoc.findfood.model.QuanAnModel;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,6 +42,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity {
     private View khungTinhNang;
     private VideoView videoView;
     private RecyclerView recyclerThucDon;
+    private ApdaterBinhLuan adapterBinhLuan;
 
 
     @Override
@@ -58,6 +66,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         btnBinhLuan = (Button) findViewById(R.id.btnBinhLuan);
         videoView = (VideoView) findViewById(R.id.videoTrailer);
+        recyclerViewBinhLuan = (RecyclerView) findViewById(R.id.recyclerBinhLuanChiTietQuanAn);
 
         hienThiChiTietQuanAn();
 
@@ -106,6 +115,23 @@ public class ChiTietQuanAnActivity extends AppCompatActivity {
         txtTongSoHinhAnh.setText(quanAnModel.getHinhanhquanan().size() + "");
         txtTongSoBinhLuan.setText(quanAnModel.getBinhLuanModelList().size() + "");
         txtThoiGianHoatDong.setText(giomocua + " - " + giodongcua);
+
+        StorageReference storageHinhQuanAn = FirebaseStorage.getInstance().getReference().child("hinhquanan").child(quanAnModel.getHinhanhquanan().get(0));
+        long ONE_MEGABYTE = 1024 * 1024;
+        storageHinhQuanAn.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                imHinhAnhQuanAn.setImageBitmap(bitmap);
+            }
+        });
+
+        //Load danh sach binh luan cua quan
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerViewBinhLuan.setLayoutManager(layoutManager);
+        adapterBinhLuan = new ApdaterBinhLuan(this,R.layout.custom_layout_binhluan,quanAnModel.getBinhLuanModelList());
+        recyclerViewBinhLuan.setAdapter(adapterBinhLuan);
+        adapterBinhLuan.notifyDataSetChanged();
     }
 
     @Override
