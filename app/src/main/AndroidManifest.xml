@@ -46,6 +46,10 @@
 
         </activity>
 
+        <activity android:name=".view.HienThiChiTietBinhLuanActivity">
+
+        </activity>
+
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package com.anhtu.hongngoc.findfood.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.anhtu.hongngoc.findfood.R;
 import com.anhtu.hongngoc.findfood.model.BinhLuanModel;
+import com.anhtu.hongngoc.findfood.view.HienThiChiTietBinhLuanActivity;
 
 import java.util.List;
 
@@ -67,9 +69,9 @@ public class AdapterRecyclerHinhBinhLuan extends RecyclerView.Adapter<AdapterRec
                     holder.imageHinhBinhLuan.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-//                            Intent iChiTietBinhLuan = new Intent(context, HienThiChiTietBinhLuanActivity.class);
-//                            iChiTietBinhLuan.putExtra("binhluanmodel",binhLuanModel);
-//                            context.startActivity(iChiTietBinhLuan);
+                            Intent iChiTietBinhLuan = new Intent(context, HienThiChiTietBinhLuanActivity.class);
+                            iChiTietBinhLuan.putExtra("binhluanmodel",binhLuanModel);
+                            context.startActivity(iChiTietBinhLuan);
                         }
                     });
 
