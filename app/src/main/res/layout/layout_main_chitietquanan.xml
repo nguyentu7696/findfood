@@ -295,9 +295,9 @@
 
                 </LinearLayout>
 
-                <!--<include-->
-                    <!--layout="@layout/layout_tinhnang_chitietquanan"-->
-                    <!--/>-->
+                <include
+                    layout="@layout/layout_tinhnang_chitietquanan"
+                    />
 
                 <View
                     android:layout_width="match_parent"
@@ -305,9 +305,9 @@
                     android:background="@color/colorBackgroungTrangChu"
                     />
 
-                <!--<include-->
-                    <!--layout="@layout/layout_wifi_chitietquanan"-->
-                    <!--/>-->
+                <include
+                    layout="@layout/layout_wifi_chitietquanan"
+                    />
 
                 <!--<include layout="@layout/layout_thucdon_chitiet"/>-->
 
