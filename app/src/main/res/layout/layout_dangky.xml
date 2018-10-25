@@ -30,7 +30,7 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
-                app:srcCompat="@drawable/foodytext" />
+                app:srcCompat="@drawable/findfood" />
 
             <EditText
                 android:id="@+id/edEmailDK"

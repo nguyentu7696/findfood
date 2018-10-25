@@ -2,6 +2,7 @@ package com.anhtu.hongngoc.findfood.view;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -183,6 +184,14 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         nestedScrollViewChiTiet.smoothScrollTo(0,0);
 
         chiTietQuanController.HienThiDanhSachWifiQuanAn(quanAnModel.getMaquanan(), txtTenWifi, txtMatKhauWifi, txtNgayDangWifi);
+        khungWifi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iDanhSachWifi = new Intent(ChiTietQuanAnActivity.this,CapNhatDanhSachWifiActivity.class);
+                iDanhSachWifi.putExtra("maquanan",quanAnModel.getMaquanan());
+                startActivity(iDanhSachWifi);
+            }
+        });
     }
 
     @Override
