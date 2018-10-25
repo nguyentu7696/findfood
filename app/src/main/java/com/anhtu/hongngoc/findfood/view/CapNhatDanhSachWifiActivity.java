@@ -1,5 +1,6 @@
 package com.anhtu.hongngoc.findfood.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +40,8 @@ public class CapNhatDanhSachWifiActivity extends AppCompatActivity implements Vi
 
     @Override
     public void onClick(View v) {
-
+        Intent iPopup = new Intent(this,PopupCapNhatWifiActivity.class);
+        iPopup.putExtra("maquanan",maquanan);
+        startActivity(iPopup);
     }
 }

@@ -28,7 +28,6 @@ public class CapNhatWifiController {
         ChiTietQuanAnInterface chiTietQuanAnInterface = new ChiTietQuanAnInterface() {
             @Override
             public void HienThiDanhSachWifi(WifiQuanAnModel wifiQuanAnModel) {
-
                 wifiQuanAnModelList.add(wifiQuanAnModel);
                 AdapterDanhSachWifi adapterDanhSachWifi = new AdapterDanhSachWifi(context, R.layout.layout_wifi_chitietquanan,wifiQuanAnModelList);
                 recyclerView.setAdapter(adapterDanhSachWifi);
@@ -37,5 +36,9 @@ public class CapNhatWifiController {
         };
 
         wifiQuanAnModel.LayDanhSachWifiQuanAn(maquanan,chiTietQuanAnInterface);
+    }
+
+    public void ThemWifi(Context context, WifiQuanAnModel wifiQuanAnModel, String maquanan){
+        wifiQuanAnModel.ThemWifiQuanAn(context,wifiQuanAnModel,maquanan);
     }
 }

@@ -61,11 +61,11 @@ public class OdauController {
                             bitmaps.add(bitmap);
                             quanAnModel.setBitmapList(bitmaps);
 
-//                            if(quanAnModel.getBitmapList().size() == quanAnModel.getHinhanhquanan().size()){
+                            if(quanAnModel.getBitmapList().size() == quanAnModel.getHinhanhquanan().size()){
                                 quanAnModelList.add(quanAnModel);
                                 adapterRecyclerOdau.notifyDataSetChanged();
                                 progressBar.setVisibility(View.GONE);
-                            //}
+                            }
                         }
                     });
                 }

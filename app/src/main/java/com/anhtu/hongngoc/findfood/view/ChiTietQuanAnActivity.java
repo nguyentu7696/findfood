@@ -192,6 +192,8 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
                 startActivity(iDanhSachWifi);
             }
         });
+
+
     }
 
     @Override
