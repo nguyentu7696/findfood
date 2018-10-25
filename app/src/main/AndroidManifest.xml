@@ -3,6 +3,16 @@
     package="com.anhtu.hongngoc.findfood">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <uses-feature android:name="android.hardware.location.gps" />
+
+    <!--<uses-permission-->
+        <!--android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>-->
+    <!--<uses-permission-->
+        <!--android:name="android.permission.READ_EXTERNAL_STORAGE"/>-->
 
     <application
         android:allowBackup="true"
@@ -13,6 +23,9 @@
         android:theme="@style/AppTheme">
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBI1i8s-7_HfKFDM-BspPA0nRbKwr4GhLI" />
 
         <activity android:name=".view.SlashScreenActivity">
             <intent-filter>
@@ -35,6 +48,14 @@
         </activity>
 
         <activity android:name=".view.KhoiPhucMatKhauActivity">
+
+        </activity>
+
+        <activity android:name=".view.ChiTietQuanAnActivity">
+
+        </activity>
+
+        <activity android:name=".view.HienThiChiTietBinhLuanActivity">
 
         </activity>
 

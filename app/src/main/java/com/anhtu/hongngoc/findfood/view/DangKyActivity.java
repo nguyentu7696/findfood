@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.anhtu.hongngoc.findfood.R;
+import com.anhtu.hongngoc.findfood.controller.DangKyController;
+import com.anhtu.hongngoc.findfood.model.ThanhVienModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -24,6 +26,7 @@ public class DangKyActivity extends AppCompatActivity implements View.OnClickLis
     private EditText edEmailDK, edPasswordDK, edNhapLaiPasswordDK;
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
+    private DangKyController dangKyController;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,6 +80,13 @@ public class DangKyActivity extends AppCompatActivity implements View.OnClickLis
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 FirebaseUser user = firebaseAuth.getCurrentUser();
+                                ThanhVienModel thanhVienModel = new ThanhVienModel();
+                                thanhVienModel.setHoten(email);
+                                thanhVienModel.setHinhanh("user2.png");
+                                String uid = task.getResult().getUser().getUid();
+
+                                dangKyController = new DangKyController();
+                                dangKyController.ThemThongTinThanhVienController(thanhVienModel,uid);
                                 Toast.makeText(DangKyActivity.this , "Authentication Successful.", Toast.LENGTH_SHORT).show();
                                 progressDialog.dismiss();
                             } else {
