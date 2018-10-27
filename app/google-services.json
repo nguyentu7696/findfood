@@ -1,35 +1,27 @@
 {
   "project_info": {
-    "project_number": "853641062371",
-    "firebase_url": "https://findfood-dfc15.firebaseio.com",
-    "project_id": "findfood-dfc15",
-    "storage_bucket": "findfood-dfc15.appspot.com"
+    "project_number": "701813741605",
+    "firebase_url": "https://myfindfood-5ac46.firebaseio.com",
+    "project_id": "myfindfood-5ac46",
+    "storage_bucket": "myfindfood-5ac46.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:853641062371:android:c9135bf4b131515b",
+        "mobilesdk_app_id": "1:701813741605:android:c9135bf4b131515b",
         "android_client_info": {
           "package_name": "com.anhtu.hongngoc.findfood"
         }
       },
       "oauth_client": [
         {
-          "client_id": "853641062371-bh81kufbubrdu41rar030ios3rbo94ge.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.anhtu.hongngoc.findfood",
-            "certificate_hash": "d001b9be9d31e93c69d7a561ee248ea942674bba"
-          }
-        },
-        {
-          "client_id": "853641062371-acpg0muvqvvm42ua6pu74l3djh8ae60s.apps.googleusercontent.com",
+          "client_id": "701813741605-ae75pmseno21ol4g322ipdam1t5etmeb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDWFZ0x3SKphi-3491IxFkcyES6Z3BjZMs"
+          "current_key": "AIzaSyDLe38WB436NpCG_N2LjkfeUBXkjlzvGHI"
         }
       ],
       "services": {
@@ -37,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "853641062371-acpg0muvqvvm42ua6pu74l3djh8ae60s.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

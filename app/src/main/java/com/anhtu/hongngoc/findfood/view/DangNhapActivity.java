@@ -70,7 +70,7 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
 
         // [START initialize_auth]
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseAuth.signOut();
+//        firebaseAuth.signOut();
         // [END initialize_auth]
         mCallbackFacebook = CallbackManager.Factory.create();
         loginManagerFacebook = LoginManager.getInstance();

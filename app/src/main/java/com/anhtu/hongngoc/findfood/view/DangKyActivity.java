@@ -93,6 +93,7 @@ public class DangKyActivity extends AppCompatActivity implements View.OnClickLis
                                 // If sign in fails, display a message to the user.
                                 Toast.makeText(DangKyActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
                             }
                         }
                     });

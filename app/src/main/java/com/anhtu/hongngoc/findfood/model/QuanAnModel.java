@@ -34,6 +34,8 @@ public class QuanAnModel implements Parcelable{
     private DatabaseReference nodeRoot;
     private DataSnapshot dataRoot;
 
+    private ValueEventListener vl;
+
     public QuanAnModel(){
         nodeRoot = FirebaseDatabase.getInstance().getReference();
     }
@@ -183,10 +185,12 @@ public class QuanAnModel implements Parcelable{
 
     public void getDanhSachQuanAn(final OdauInterface odauInterface, final Location vitrihientai, final int itemtieptheo, final int itemdaco){
 
+
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 dataRoot = dataSnapshot;
+                Log.d("root", dataSnapshot.toString());
                 layDanhSachQuanAn(dataSnapshot,odauInterface,vitrihientai,itemtieptheo,itemdaco);
             }
 
@@ -199,82 +203,90 @@ public class QuanAnModel implements Parcelable{
         if(dataRoot != null){
             layDanhSachQuanAn(dataRoot,odauInterface,vitrihientai,itemtieptheo,itemdaco);
         }else{
-            nodeRoot.addListenerForSingleValueEvent(valueEventListener);
+            nodeRoot.addValueEventListener(valueEventListener);
         }
     }
 
     private void layDanhSachQuanAn(DataSnapshot dataSnapshot,OdauInterface odauInterface,Location vitrihientai,int itemtieptheo,int itemdaco){
-        DataSnapshot dataSnapshotQuanAn = dataSnapshot.child("quanans");
+        try {
 
-        int i = 0; // đếm xem vòng for đếm bao nhiêu lần
+            DataSnapshot dataSnapshotQuanAn = dataSnapshot.child("quanans");
 
-        //lấy danh sách quán ăn
-        for(DataSnapshot valueQuanAn: dataSnapshotQuanAn.getChildren()){
+            int i = 0; // đếm xem vòng for đếm bao nhiêu lần
 
-            if(i == itemtieptheo){
-                break;
-            }
-            if(i < itemdaco){
-                i++;
-                continue;
-            }
-            i++;
+            //lấy danh sách quán ăn
+            for(DataSnapshot valueQuanAn: dataSnapshotQuanAn.getChildren()){
 
-            QuanAnModel quanAnModel = valueQuanAn.getValue(QuanAnModel.class);
-            quanAnModel.setMaquanan(valueQuanAn.getKey());
-
-            //Lấy danh sách hình ảnh của quán ăn theo mã
-            DataSnapshot dataSnapshotHinhQuanAn = dataSnapshot.child("hinhanhquanans").child(valueQuanAn.getKey());
-
-            List<String> hinhanhlist = new ArrayList<>();
-
-            for (DataSnapshot valueHinhQuanAn : dataSnapshotHinhQuanAn.getChildren()){
-                hinhanhlist.add(valueHinhQuanAn.getValue(String.class));
-            }
-            quanAnModel.setHinhanhquanan(hinhanhlist);
-
-
-            //Lấy danh sách bình luân của quán ăn
-            DataSnapshot snapshotBinhLuan = dataSnapshot.child("binhluans").child(quanAnModel.getMaquanan());
-            List<BinhLuanModel> binhLuanModels = new ArrayList<>();
-
-            for (DataSnapshot valueBinhLuan : snapshotBinhLuan.getChildren()){
-                BinhLuanModel binhLuanModel = valueBinhLuan.getValue(BinhLuanModel.class);
-                binhLuanModel.setManbinhluan(valueBinhLuan.getKey());
-                ThanhVienModel thanhVienModel = dataSnapshot.child("thanhviens").child(binhLuanModel.getMauser()).getValue(ThanhVienModel.class);
-                binhLuanModel.setThanhVienModel(thanhVienModel);
-
-                List<String> hinhanhBinhLuanList = new ArrayList<>();
-                DataSnapshot snapshotNodeHinhAnhBL = dataSnapshot.child("hinhanhbinhluans").child(binhLuanModel.getManbinhluan());
-                for (DataSnapshot valueHinhBinhLuan : snapshotNodeHinhAnhBL.getChildren()){
-                    hinhanhBinhLuanList.add(valueHinhBinhLuan.getValue(String.class));
+                if(i == itemtieptheo){
+                    break;
                 }
-                binhLuanModel.setHinhanhBinhLuanList(hinhanhBinhLuanList);
+                if(i < itemdaco){
+                    i++;
+                    continue;
+                }
+                i++;
 
-                binhLuanModels.add(binhLuanModel);
+                QuanAnModel quanAnModel = valueQuanAn.getValue(QuanAnModel.class);
+                quanAnModel.setMaquanan(valueQuanAn.getKey());
+
+                //Lấy danh sách hình ảnh của quán ăn theo mã
+                DataSnapshot dataSnapshotHinhQuanAn = dataSnapshot.child("hinhanhquanans").child(valueQuanAn.getKey());
+
+                List<String> hinhanhlist = new ArrayList<>();
+
+                for (DataSnapshot valueHinhQuanAn : dataSnapshotHinhQuanAn.getChildren()){
+                    hinhanhlist.add(valueHinhQuanAn.getValue(String.class));
+                }
+                quanAnModel.setHinhanhquanan(hinhanhlist);
+
+
+                //Lấy danh sách bình luân của quán ăn
+                DataSnapshot snapshotBinhLuan = dataSnapshot.child("binhluans").child(quanAnModel.getMaquanan());
+                List<BinhLuanModel> binhLuanModels = new ArrayList<>();
+
+                for (DataSnapshot valueBinhLuan : snapshotBinhLuan.getChildren()){
+                    BinhLuanModel binhLuanModel = valueBinhLuan.getValue(BinhLuanModel.class);
+                    binhLuanModel.setManbinhluan(valueBinhLuan.getKey());
+                    ThanhVienModel thanhVienModel = dataSnapshot.child("thanhviens").child(binhLuanModel.getMauser()).getValue(ThanhVienModel.class);
+                    binhLuanModel.setThanhVienModel(thanhVienModel);
+
+                    List<String> hinhanhBinhLuanList = new ArrayList<>();
+                    DataSnapshot snapshotNodeHinhAnhBL = dataSnapshot.child("hinhanhbinhluans").child(binhLuanModel.getManbinhluan());
+                    for (DataSnapshot valueHinhBinhLuan : snapshotNodeHinhAnhBL.getChildren()){
+                        hinhanhBinhLuanList.add(valueHinhBinhLuan.getValue(String.class));
+                    }
+                    binhLuanModel.setHinhanhBinhLuanList(hinhanhBinhLuanList);
+
+                    binhLuanModels.add(binhLuanModel);
+                }
+                quanAnModel.setBinhLuanModelList(binhLuanModels);
+
+                //Lấy chi nhánh quán ăn
+                DataSnapshot snapshotChiNhanhQuanAn = dataSnapshot.child("chinhanhquanans").child(quanAnModel.getMaquanan());
+                List<ChiNhanhQuanAnModel> chiNhanhQuanAnModels = new ArrayList<>();
+
+                for (DataSnapshot valueChiNhanhQuanAn : snapshotChiNhanhQuanAn.getChildren()){
+                    ChiNhanhQuanAnModel chiNhanhQuanAnModel = valueChiNhanhQuanAn.getValue(ChiNhanhQuanAnModel.class);
+                    Location vitriquanan = new Location("");
+                    vitriquanan.setLatitude(chiNhanhQuanAnModel.getLatitude());
+                    vitriquanan.setLongitude(chiNhanhQuanAnModel.getLongitude());
+
+                    double khoangcach = vitrihientai.distanceTo(vitriquanan)/1000;
+                    chiNhanhQuanAnModel.setKhoangcach(khoangcach);
+
+                    chiNhanhQuanAnModels.add(chiNhanhQuanAnModel);
+                }
+
+                quanAnModel.setChiNhanhQuanAnModelList(chiNhanhQuanAnModels);
+
+                odauInterface.getDanhSachQuanAnModel(quanAnModel);
             }
-            quanAnModel.setBinhLuanModelList(binhLuanModels);
 
-            //Lấy chi nhánh quán ăn
-            DataSnapshot snapshotChiNhanhQuanAn = dataSnapshot.child("chinhanhquanans").child(quanAnModel.getMaquanan());
-            List<ChiNhanhQuanAnModel> chiNhanhQuanAnModels = new ArrayList<>();
-
-            for (DataSnapshot valueChiNhanhQuanAn : snapshotChiNhanhQuanAn.getChildren()){
-                ChiNhanhQuanAnModel chiNhanhQuanAnModel = valueChiNhanhQuanAn.getValue(ChiNhanhQuanAnModel.class);
-                Location vitriquanan = new Location("");
-                vitriquanan.setLatitude(chiNhanhQuanAnModel.getLatitude());
-                vitriquanan.setLongitude(chiNhanhQuanAnModel.getLongitude());
-
-                double khoangcach = vitrihientai.distanceTo(vitriquanan)/1000;
-                chiNhanhQuanAnModel.setKhoangcach(khoangcach);
-
-                chiNhanhQuanAnModels.add(chiNhanhQuanAnModel);
-            }
-
-            quanAnModel.setChiNhanhQuanAnModelList(chiNhanhQuanAnModels);
-
-            odauInterface.getDanhSachQuanAnModel(quanAnModel);
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
+
     }
 
     @Override

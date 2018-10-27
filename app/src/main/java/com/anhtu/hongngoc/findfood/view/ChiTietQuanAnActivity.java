@@ -33,6 +33,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -65,7 +66,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
     private RecyclerView recyclerThucDon;
     private ApdaterBinhLuan adapterBinhLuan;
     private GoogleMap googleMap;
-    private MapFragment mapFragment;
+    private SupportMapFragment mapFragment;
 
     private ChiTietQuanController chiTietQuanController;
 
@@ -92,13 +93,14 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         btnBinhLuan = (Button) findViewById(R.id.btnBinhLuan);
         videoView = (VideoView) findViewById(R.id.videoTrailer);
         recyclerViewBinhLuan = (RecyclerView) findViewById(R.id.recyclerBinhLuanChiTietQuanAn);
-        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         txtGioiHanGia = (TextView) findViewById(R.id.txtGioiHanGia);
         khungTienIch = (LinearLayout) findViewById(R.id.khungTienTich);
         txtTenWifi = (TextView) findViewById(R.id.txtTenWifi);
         txtMatKhauWifi = (TextView) findViewById(R.id.txtMatKhauWifi);
         khungWifi = (LinearLayout) findViewById(R.id.khungWifi);
         txtNgayDangWifi = (TextView) findViewById(R.id.txtNgayDangWifi);
+        khungTinhNang = (View)findViewById(R.id.khungTinhNang);
 
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -107,9 +109,11 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
 
         chiTietQuanController = new ChiTietQuanController();
 
-        mapFragment.getMapAsync(ChiTietQuanAnActivity.this);
+        mapFragment.getMapAsync(this);
 
         hienThiChiTietQuanAn();
+
+        khungTinhNang.setOnClickListener(this);
     }
 
     @Override
@@ -203,43 +207,59 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     public void onClick(View v) {
+        int id = v.getId();
+        switch (id){
+            case R.id.khungTinhNang:
+                Intent iDanDuong = new Intent(this,DanDuongToiQuanAnActivity.class);
+                iDanDuong.putExtra("latitude",quanAnModel.getChiNhanhQuanAnModelList().get(0).getLatitude());
+                iDanDuong.putExtra("longitude",quanAnModel.getChiNhanhQuanAnModelList().get(0).getLongitude());
+                Log.d("leuleu", quanAnModel.getChiNhanhQuanAnModelList().get(0).getLatitude() + " - " + quanAnModel.getChiNhanhQuanAnModelList().get(0).getLongitude());
+                startActivity(iDanDuong);
+                break;
 
+            case R.id.btnBinhLuan:
+//                Intent iBinhLuan = new Intent(this,BinhLuanActivity.class);
+//                iBinhLuan.putExtra("maquanan",quanAnModel.getMaquanan());
+//                iBinhLuan.putExtra("tenquan",quanAnModel.getTenquanan());
+//                iBinhLuan.putExtra("diachi",quanAnModel.getChiNhanhQuanAnModelList().get(0).getDiachi());
+//                startActivity(iBinhLuan);
+        }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-//        this.googleMap = googleMap;
-//
-//        double latitude = quanAnModel.getChiNhanhQuanAnModelList().get(0).getLatitude();
-//        double longitude = quanAnModel.getChiNhanhQuanAnModelList().get(0).getLongitude();
-//
-//        LatLng latLng = new LatLng(latitude,longitude);
-//        MarkerOptions markerOptions = new MarkerOptions();
-//        markerOptions.position(latLng);
-//        markerOptions.title(quanAnModel.getTenquanan());
-//
-//        googleMap.addMarker(markerOptions);
-//
-//        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng,14);
-//        googleMap.moveCamera(cameraUpdate);
         this.googleMap = googleMap;
-        googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-        googleMap.getUiSettings().setZoomControlsEnabled(true);
-        LatLng XXX = new LatLng(21.014557, 105.804000);
-        googleMap.addMarker(new MarkerOptions().position(XXX).title("XXX"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(XXX, 18));
-        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        googleMap.setMyLocationEnabled(true);
+
+        double latitude = quanAnModel.getChiNhanhQuanAnModelList().get(0).getLatitude();
+        double longitude = quanAnModel.getChiNhanhQuanAnModelList().get(0).getLongitude();
+
+        LatLng latLng = new LatLng(latitude,longitude);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        markerOptions.title(quanAnModel.getTenquanan());
+
+        googleMap.addMarker(markerOptions);
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng,14);
+        googleMap.moveCamera(cameraUpdate);
+//        this.googleMap = googleMap;
+//        googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+//        googleMap.getUiSettings().setZoomControlsEnabled(true);
+//        LatLng XXX = new LatLng(21.014557, 105.804000);
+//        googleMap.addMarker(new MarkerOptions().position(XXX).title("XXX"));
+//        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(XXX, 18));
+//        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+//        googleMap.setMyLocationEnabled(true);
 
     }
 
