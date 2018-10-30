@@ -114,6 +114,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         hienThiChiTietQuanAn();
 
         khungTinhNang.setOnClickListener(this);
+        btnBinhLuan.setOnClickListener(this);
     }
 
     @Override
@@ -218,11 +219,12 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
                 break;
 
             case R.id.btnBinhLuan:
-//                Intent iBinhLuan = new Intent(this,BinhLuanActivity.class);
-//                iBinhLuan.putExtra("maquanan",quanAnModel.getMaquanan());
-//                iBinhLuan.putExtra("tenquan",quanAnModel.getTenquanan());
-//                iBinhLuan.putExtra("diachi",quanAnModel.getChiNhanhQuanAnModelList().get(0).getDiachi());
-//                startActivity(iBinhLuan);
+                Intent iBinhLuan = new Intent(this,BinhLuanActivity.class);
+                iBinhLuan.putExtra("maquanan",quanAnModel.getMaquanan());
+                iBinhLuan.putExtra("tenquan",quanAnModel.getTenquanan());
+                iBinhLuan.putExtra("diachi",quanAnModel.getChiNhanhQuanAnModelList().get(0).getDiachi());
+                startActivity(iBinhLuan);
+                break;
         }
     }
 
@@ -264,42 +266,46 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
     }
 
     private void downLoadHinhTienIch(){
+        try {
+            for (String matienich : quanAnModel.getTienich()){
+                DatabaseReference nodeTienIch = FirebaseDatabase.getInstance().getReference().child("quanlytienichs").child(matienich);
+                nodeTienIch.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        TienIchModel tienIchModel = dataSnapshot.getValue(TienIchModel.class);
 
-        for (String matienich : quanAnModel.getTienich()){
-            DatabaseReference nodeTienIch = FirebaseDatabase.getInstance().getReference().child("quanlytienichs").child(matienich);
-            nodeTienIch.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    TienIchModel tienIchModel = dataSnapshot.getValue(TienIchModel.class);
-
-                    StorageReference storageHinhQuanAn = FirebaseStorage.getInstance().getReference().child("hinhtienich").child(tienIchModel.getHinhtienich());
-                    long ONE_MEGABYTE = 1024 * 1024;
-                    storageHinhQuanAn.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                        @Override
-                        public void onSuccess(byte[] bytes) {
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-                            ImageView imageTienIch = new ImageView(ChiTietQuanAnActivity.this);
-                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100,100);
-                            layoutParams.setMargins(10,10,10,10);
-                            imageTienIch.setLayoutParams(layoutParams);
-                            imageTienIch.setScaleType(ImageView.ScaleType.FIT_XY);
-                            imageTienIch.setPadding(5,5,5,5);
-
-
-                            imageTienIch.setImageBitmap(bitmap);
-                            khungTienIch.addView(imageTienIch);
-                        }
-                    });
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+                        StorageReference storageHinhQuanAn = FirebaseStorage.getInstance().getReference().child("hinhtienich").child(tienIchModel.getHinhtienich());
+                        long ONE_MEGABYTE = 1024 * 1024;
+                        storageHinhQuanAn.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                                ImageView imageTienIch = new ImageView(ChiTietQuanAnActivity.this);
+                                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100,100);
+                                layoutParams.setMargins(10,10,10,10);
+                                imageTienIch.setLayoutParams(layoutParams);
+                                imageTienIch.setScaleType(ImageView.ScaleType.FIT_XY);
+                                imageTienIch.setPadding(5,5,5,5);
 
 
+                                imageTienIch.setImageBitmap(bitmap);
+                                khungTienIch.addView(imageTienIch);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
+
 
     }
 }

@@ -1,6 +1,7 @@
 package com.anhtu.hongngoc.findfood.view;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -61,6 +62,7 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
     private LoginManager loginManagerFacebook;
     private List<String> permissionFacebook = Arrays.asList("email","public_profile");
 
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,6 +89,8 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
         txtDangKyMoi.setOnClickListener(this);
         btnDangNhap.setOnClickListener(this);
         txtQuenMatKhau.setOnClickListener(this);
+
+        sharedPreferences = getSharedPreferences("luudangnhap",MODE_PRIVATE);
 
         taoClientDangNhapGoogle();
     }
@@ -225,6 +229,11 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
         // kiểm tra người dùng đăng nhập thành công hay đăng suất
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("mauser",firebaseUser.getUid());
+            editor.commit();
+
             Intent iTrangChu = new Intent(this, TrangChuActivity.class);
             startActivity(iTrangChu);
         } else {
