@@ -55,18 +55,16 @@ public class SlashScreenActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("toado", MODE_PRIVATE);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        if (!checkPermissions()) {
-            startLocationPermissionRequest();
-        } else {
-            getLastLocation();
-        }
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        if (!checkPermissions()) {
+            startLocationPermissionRequest();
+        } else {
+            getLastLocation();
+        }
     }
 
     @SuppressWarnings("MissingPermission")

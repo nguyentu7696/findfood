@@ -82,9 +82,6 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
         edPassword = (EditText) findViewById(R.id.edPasswordDN);
         txtDangKyMoi = (TextView) findViewById(R.id.txtDangKyMoi);
         txtQuenMatKhau = (TextView) findViewById(R.id.txtQuenMatKhau);
-
-
-
         btnDangNhapGoogle.setOnClickListener(this);
         btnDangNhapFacebook.setOnClickListener(this);
         txtDangKyMoi.setOnClickListener(this);

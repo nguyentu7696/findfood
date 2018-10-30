@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "701813741605",
-    "firebase_url": "https://myfindfood-5ac46.firebaseio.com",
-    "project_id": "myfindfood-5ac46",
-    "storage_bucket": "myfindfood-5ac46.appspot.com"
+    "project_number": "93205381057",
+    "firebase_url": "https://findfood-af0f7.firebaseio.com",
+    "project_id": "findfood-af0f7",
+    "storage_bucket": "findfood-af0f7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:701813741605:android:c9135bf4b131515b",
+        "mobilesdk_app_id": "1:93205381057:android:c9135bf4b131515b",
         "android_client_info": {
           "package_name": "com.anhtu.hongngoc.findfood"
         }
       },
       "oauth_client": [
         {
-          "client_id": "701813741605-ae75pmseno21ol4g322ipdam1t5etmeb.apps.googleusercontent.com",
+          "client_id": "93205381057-5g8qerea7c07fhgnd8d8or52j3duo6vv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDLe38WB436NpCG_N2LjkfeUBXkjlzvGHI"
+          "current_key": "AIzaSyBXd8ZsFPw2_A1l3k0mBlRDY1k-1yL2xwo"
         }
       ],
       "services": {
