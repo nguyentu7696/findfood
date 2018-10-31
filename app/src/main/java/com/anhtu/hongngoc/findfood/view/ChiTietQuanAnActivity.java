@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.TextView;
 
 import android.widget.VideoView;
@@ -101,6 +103,8 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         khungWifi = (LinearLayout) findViewById(R.id.khungWifi);
         txtNgayDangWifi = (TextView) findViewById(R.id.txtNgayDangWifi);
         khungTinhNang = (View)findViewById(R.id.khungTinhNang);
+        videoView = (VideoView) findViewById(R.id.videoTrailer);
+        imgPlayTrailer = (ImageView) findViewById(R.id.imgPLayTrailer);
 
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -178,6 +182,37 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
             }
         });
 
+
+        if(quanAnModel.getVideogioithieu() != null){
+            videoView.setVisibility(View.VISIBLE);
+            imgPlayTrailer.setVisibility(View.VISIBLE);
+            imHinhAnhQuanAn.setVisibility(View.GONE);
+            StorageReference storageVideo = FirebaseStorage.getInstance().getReference().child("video").child(quanAnModel.getVideogioithieu());
+            storageVideo.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    videoView.setVideoURI(uri);
+                    videoView.seekTo(1);
+                }
+            });
+
+            imgPlayTrailer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    videoView.start();
+                    MediaController mediaController = new MediaController(ChiTietQuanAnActivity.this);
+                    videoView.setMediaController(mediaController);
+                    imgPlayTrailer.setVisibility(View.GONE);
+                }
+            });
+
+        }else{
+            videoView.setVisibility(View.GONE);
+            imgPlayTrailer.setVisibility(View.GONE);
+            imHinhAnhQuanAn.setVisibility(View.VISIBLE);
+        }
+
+
         //Load danh sach binh luan cua quan
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerViewBinhLuan.setLayoutManager(layoutManager);
@@ -204,6 +239,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
     @Override
     protected void onStart() {
         super.onStart();
+        adapterBinhLuan.notifyDataSetChanged();
     }
 
     @Override
