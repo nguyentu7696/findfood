@@ -100,7 +100,7 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
             holder.txtChamDiemBinhLuan.setText(binhLuanModel.getChamdiem() + "");
             setHinhAnhBinhLuan(holder.cicleImageUser,binhLuanModel.getThanhVienModel().getHinhanh());
 
-            if(quanAnModel.getBinhLuanModelList().size() > 2) {
+            if(quanAnModel.getBinhLuanModelList().size() > 1) {
                 BinhLuanModel binhLuanModel2 = quanAnModel.getBinhLuanModelList().get(1);
                 holder.txtTieudebinhluan2.setText(binhLuanModel2.getTieude());
                 holder.txtNodungbinhluan2.setText(binhLuanModel2.getNoidung());

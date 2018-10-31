@@ -55,25 +55,6 @@ public class SlashScreenActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("toado", MODE_PRIVATE);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        try {
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(),0);
-            txtPhienBan.setText( getString(R.string.phienban) + packageInfo.versionName);
-
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent iDangNhap = new Intent(SlashScreenActivity.this, DangNhapActivity.class);
-                    startActivity(iDangNhap);
-                    finish();
-                }
-            },2000);
-
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
     }
 
     @Override
@@ -91,16 +72,33 @@ public class SlashScreenActivity extends AppCompatActivity {
         mFusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                if (location != null) {
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("latitude", String.valueOf(location.getLatitude()));
-                    editor.putString("longitude", String.valueOf(location.getLongitude()));
-                    editor.commit();
-                }else{
-                    Toast.makeText(SlashScreenActivity.this, "Khong lay duoc vi tri.",
-                            Toast.LENGTH_SHORT).show();
-                }
+            if (location != null) {
+                Toast.makeText(SlashScreenActivity.this, "vi tri: " + String.valueOf(location.getLatitude()) + String.valueOf(location.getLongitude()), Toast.LENGTH_SHORT).show();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("latitude", String.valueOf(location.getLatitude()));
+                editor.putString("longitude", String.valueOf(location.getLongitude()));
+                editor.commit();
+            }else{
+                Toast.makeText(SlashScreenActivity.this, "Khong lay duoc vi tri.",
+                        Toast.LENGTH_SHORT).show();
+            }
+            try {
+                PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(),0);
+                txtPhienBan.setText( getString(R.string.phienban) + packageInfo.versionName);
 
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent iDangNhap = new Intent(SlashScreenActivity.this, DangNhapActivity.class);
+                        startActivity(iDangNhap);
+                        finish();
+                    }
+                },2000);
+
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
             }
         });
     }
