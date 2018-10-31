@@ -25,6 +25,7 @@ public class QuanAnModel implements Parcelable{
     private List<BinhLuanModel> binhLuanModelList;
     private List<ChiNhanhQuanAnModel> chiNhanhQuanAnModelList;
     private List<Bitmap> bitmapList;
+    List<ThucDonModel> thucDons;
 
 
     private long giatoida;
@@ -70,6 +71,14 @@ public class QuanAnModel implements Parcelable{
             return new QuanAnModel[size];
         }
     };
+
+    public List<ThucDonModel> getThucDons() {
+        return thucDons;
+    }
+
+    public void setThucDons(List<ThucDonModel> thucDons) {
+        this.thucDons = thucDons;
+    }
 
     public boolean isGiaohang() {
         return giaohang;

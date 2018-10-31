@@ -28,6 +28,7 @@ import android.widget.VideoView;
 import com.anhtu.hongngoc.findfood.Adapters.ApdaterBinhLuan;
 import com.anhtu.hongngoc.findfood.R;
 import com.anhtu.hongngoc.findfood.controller.ChiTietQuanController;
+import com.anhtu.hongngoc.findfood.controller.ThucDonController;
 import com.anhtu.hongngoc.findfood.model.QuanAnModel;
 import com.anhtu.hongngoc.findfood.model.TienIchModel;
 import com.google.android.gms.maps.CameraUpdate;
@@ -71,6 +72,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
     private SupportMapFragment mapFragment;
 
     private ChiTietQuanController chiTietQuanController;
+    private ThucDonController thucDonController;
 
 
     @Override
@@ -105,6 +107,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         khungTinhNang = (View)findViewById(R.id.khungTinhNang);
         videoView = (VideoView) findViewById(R.id.videoTrailer);
         imgPlayTrailer = (ImageView) findViewById(R.id.imgPLayTrailer);
+        recyclerThucDon = (RecyclerView) findViewById(R.id.recyclerThucDon);
 
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -112,6 +115,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         chiTietQuanController = new ChiTietQuanController();
+        thucDonController = new ThucDonController();
 
         mapFragment.getMapAsync(this);
 
@@ -233,6 +237,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
             }
         });
 
+        thucDonController.getDanhSachThucDonQuanAnTheoMa(this,quanAnModel.getMaquanan(),recyclerThucDon);
 
     }
 
