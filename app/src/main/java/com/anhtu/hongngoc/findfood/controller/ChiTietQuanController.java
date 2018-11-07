@@ -28,7 +28,6 @@ public class ChiTietQuanController {
                 txtNgayDangWifi.setText(wifiQuanAnModel.getNgaydang());
             }
         };
-
         wifiQuanAnModel.LayDanhSachWifiQuanAn(maquanan,chiTietQuanAnInterface);
     }
 }

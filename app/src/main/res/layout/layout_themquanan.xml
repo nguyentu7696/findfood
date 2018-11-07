@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/giatoida"
-                android:text="0"
+
                 android:inputType="number"
                 />
 
@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/giatoithieu"
-                android:text="0"
+
                 android:inputType="number"
                 />
 
@@ -88,22 +88,22 @@
 
             </LinearLayout>
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="150dp">
-                <VideoView
-                    android:id="@+id/videoView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/img_themvideo"
-                    android:scaleType="centerCrop"
-                    />
+            <!--<FrameLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="150dp">-->
+                <!--<VideoView-->
+                    <!--android:id="@+id/videoView"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:src="@drawable/img_themvideo"-->
+                    <!--android:scaleType="centerCrop"-->
+                    <!--/>-->
 
-                <ImageView
-                    android:id="@+id/imgVideo"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </FrameLayout>
+                <!--<ImageView-->
+                    <!--android:id="@+id/imgVideo"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent" />-->
+            <!--</FrameLayout>-->
 
 
             <HorizontalScrollView
