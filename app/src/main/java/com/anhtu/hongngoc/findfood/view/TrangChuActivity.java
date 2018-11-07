@@ -33,18 +33,24 @@ public class TrangChuActivity extends AppCompatActivity implements View.OnClickL
 
         groupOdauAngi = (RadioGroup) findViewById(R.id.group_odau_angi);
 
-        AdapterViewPagerTrangChu adapterViewPagerTrangChu = new AdapterViewPagerTrangChu(getSupportFragmentManager());
-        viewPagerTrangChu.setAdapter(adapterViewPagerTrangChu);
-
-        viewPagerTrangChu.addOnPageChangeListener(this);
-
-        groupOdauAngi.setOnCheckedChangeListener(this);
 
         themquanan.setOnClickListener(this);
     }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        AdapterViewPagerTrangChu adapterViewPagerTrangChu = new AdapterViewPagerTrangChu(getSupportFragmentManager());
+        viewPagerTrangChu.setAdapter(adapterViewPagerTrangChu);
+
+        viewPagerTrangChu.addOnPageChangeListener(this);
+
+        groupOdauAngi.setOnCheckedChangeListener(this);
 
     }
 

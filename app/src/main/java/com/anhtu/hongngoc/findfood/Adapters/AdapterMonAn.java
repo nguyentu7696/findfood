@@ -37,48 +37,48 @@ public class AdapterMonAn extends RecyclerView.Adapter<AdapterMonAn.HolderMonAn>
         final MonAnModel monAnModel = monAnModelList.get(position);
         holder.txtTenMonAn.setText(monAnModel.getTenmon());
 
-        holder.txtSoLuong.setTag(0);
-        holder.imgTangSoLuong.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int dem = Integer.parseInt(holder.txtSoLuong.getTag().toString());
-                dem++;
-                holder.txtSoLuong.setText(dem+"");
-                holder.txtSoLuong.setTag(dem);
-
-                DatMon datMonTag = (DatMon) holder.imgGiamSoLuong.getTag();
-                if(datMonTag != null){
-                    AdapterMonAn.datMonList.remove(datMonTag);
-                }
-
-                DatMon datMon = new DatMon();
-                datMon.setSoLuong(dem);
-                datMon.setTenMonAn(monAnModel.getTenmon());
-
-                holder.imgGiamSoLuong.setTag(datMon);
-
-                AdapterMonAn.datMonList.add(datMon);
-
-            }
-        });
-
-        holder.imgGiamSoLuong.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int dem = Integer.parseInt(holder.txtSoLuong.getTag().toString());
-                if(dem != 0){
-                    dem--;
-                    if(dem == 0){
-                        DatMon datMon = (DatMon) v.getTag();
-                        AdapterMonAn.datMonList.remove(datMon);
-                    }
-                }
-
-                holder.txtSoLuong.setText(dem+"");
-                holder.txtSoLuong.setTag(dem);
-
-            }
-        });
+//        holder.txtSoLuong.setTag(0);
+//        holder.imgTangSoLuong.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int dem = Integer.parseInt(holder.txtSoLuong.getTag().toString());
+//                dem++;
+//                holder.txtSoLuong.setText(dem+"");
+//                holder.txtSoLuong.setTag(dem);
+//
+//                DatMon datMonTag = (DatMon) holder.imgGiamSoLuong.getTag();
+//                if(datMonTag != null){
+//                    AdapterMonAn.datMonList.remove(datMonTag);
+//                }
+//
+//                DatMon datMon = new DatMon();
+//                datMon.setSoLuong(dem);
+//                datMon.setTenMonAn(monAnModel.getTenmon());
+//
+//                holder.imgGiamSoLuong.setTag(datMon);
+//
+//                AdapterMonAn.datMonList.add(datMon);
+//
+//            }
+//        });
+//
+//        holder.imgGiamSoLuong.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int dem = Integer.parseInt(holder.txtSoLuong.getTag().toString());
+//                if(dem != 0){
+//                    dem--;
+//                    if(dem == 0){
+//                        DatMon datMon = (DatMon) v.getTag();
+//                        AdapterMonAn.datMonList.remove(datMon);
+//                    }
+//                }
+//
+//                holder.txtSoLuong.setText(dem+"");
+//                holder.txtSoLuong.setTag(dem);
+//
+//            }
+//        });
     }
 
     @Override
@@ -93,9 +93,9 @@ public class AdapterMonAn extends RecyclerView.Adapter<AdapterMonAn.HolderMonAn>
         public HolderMonAn(View itemView) {
             super(itemView);
             txtTenMonAn = (TextView) itemView.findViewById(R.id.txtTenMonAn);
-            txtSoLuong = (TextView) itemView.findViewById(R.id.txtSoLuong);
-            imgGiamSoLuong = (ImageView) itemView.findViewById(R.id.imgGiamSoLuong);
-            imgTangSoLuong = (ImageView) itemView.findViewById(R.id.imgTangSoLuong);
+//            txtSoLuong = (TextView) itemView.findViewById(R.id.txtSoLuong);
+//            imgGiamSoLuong = (ImageView) itemView.findViewById(R.id.imgGiamSoLuong);
+//            imgTangSoLuong = (ImageView) itemView.findViewById(R.id.imgTangSoLuong);
         }
     }
 }
