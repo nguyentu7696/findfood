@@ -2,10 +2,14 @@ package com.anhtu.hongngoc.findfood.view;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -36,6 +40,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -47,7 +53,7 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
     private Button btnDangNhapFacebook;
     private Button btnDangNhap;
     private EditText edEmail,edPassword;
-
+    FirebaseUser firebaseUser;
 
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
@@ -70,16 +76,31 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
         FacebookSdk.sdkInitialize(FacebookSdk.getApplicationContext());
         setContentView(R.layout.layout_dangnhap);
 
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo("com.anhtu.hongngoc.findfood", PackageManager.GET_SIGNATURES);
+
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("Key:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
         // [START initialize_auth]
         firebaseAuth = FirebaseAuth.getInstance();
-//        firebaseAuth.signOut();
+        firebaseAuth.signOut();
         // [END initialize_auth]
         mCallbackFacebook = CallbackManager.Factory.create();
         loginManagerFacebook = LoginManager.getInstance();
 
         btnDangNhapGoogle = (Button) findViewById(R.id.btnDangNhapGoogle);
         btnDangNhapFacebook = (Button) findViewById(R.id.btnDangNhapFacebook);
-        btnDangNhap = (Button)findViewById(R.id.btnDangNhap);
+        btnDangNhap = (Button) findViewById(R.id.btnDangNhap);
         edEmail = (EditText) findViewById(R.id.edEmailDN);
         edPassword = (EditText) findViewById(R.id.edPasswordDN);
         txtDangKyMoi = (TextView) findViewById(R.id.txtDangKyMoi);
@@ -90,12 +111,12 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
         btnDangNhap.setOnClickListener(this);
         txtQuenMatKhau.setOnClickListener(this);
 
-        sharedPreferences = getSharedPreferences("luudangnhap",MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("luudangnhap", MODE_PRIVATE);
 
         taoClientDangNhapGoogle();
     }
 
-    private void taoClientDangNhapGoogle() {
+        private void taoClientDangNhapGoogle() {
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         // [START config_signin]
@@ -122,7 +143,7 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onSuccess(LoginResult loginResult) {
                 KIEMTRA_PROVIDER_DANGNHAP = 2;
-                Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                Log.d(TAG, "facebook:onSuccess:" + loginResult.getAccessToken().getToken());
                 chungThucDangNhapFireBase(null, loginResult.getAccessToken());
             }
 
@@ -159,7 +180,7 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
                 };
             }
         }else{
-            //mCallbackManager.onActivityResult(requestCode, resultCode, data);
+            mCallbackFacebook.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -172,6 +193,7 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
         }else if(KIEMTRA_PROVIDER_DANGNHAP == 2){
             AuthCredential authCredential = FacebookAuthProvider.getCredential(token.getToken());
             firebaseAuth.signInWithCredential(authCredential);
+
         }
     }
 
@@ -197,6 +219,7 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
                 if(!task.isSuccessful()){
                     Toast.makeText(DangNhapActivity.this,getString(R.string.thongbaodangnhapthatbai),Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
     }
@@ -227,7 +250,7 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         // kiểm tra người dùng đăng nhập thành công hay đăng suất
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+         firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
 
             SharedPreferences.Editor editor = sharedPreferences.edit();

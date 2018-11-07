@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "93205381057-4kvvrle09ukvtd12if2s2uqn8criom0f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anhtu.hongngoc.findfood",
+            "certificate_hash": "b9d31a9c2ad55821506766f84cd1e336a3482353"
+          }
+        },
+        {
           "client_id": "93205381057-5g8qerea7c07fhgnd8d8or52j3duo6vv.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "93205381057-5g8qerea7c07fhgnd8d8or52j3duo6vv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

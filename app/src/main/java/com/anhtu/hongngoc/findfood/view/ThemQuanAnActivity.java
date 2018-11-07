@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.anhtu.hongngoc.findfood.R;
@@ -72,7 +74,7 @@ public class ThemQuanAnActivity extends AppCompatActivity implements  View.OnCli
     LinearLayout khungTienIch,khungChiNhanh,khungChuaChiNhanh,khungChuaThucDon;
     String gioMoCua,gioDongCua,khuvuc;
     RadioGroup rdgTrangThai;
-    EditText edTenQuanAn,edGiaToiDa,edGiaThoiThieu;
+    EditText edTenQuanAn,edGiaToiDa,edGiaThoiThieu,edtChiNhanh;
 
     List<ThucDonModel> thucDonModelList;
     List<String> selectedTienIchList;
@@ -107,13 +109,14 @@ public class ThemQuanAnActivity extends AppCompatActivity implements  View.OnCli
         imgHinhQuan4 = (ImageView) findViewById(R.id.imgHinhQuan4);
         imgHinhQuan5 = (ImageView) findViewById(R.id.imgHinhQuan5);
         imgHinhQuan6 = (ImageView) findViewById(R.id.imgHinhQuan6);
-        imgVideo = (ImageView) findViewById(R.id.imgVideo);
-        videoView = (VideoView) findViewById(R.id.videoView);
+//        imgVideo = (ImageView) findViewById(R.id.imgVideo);
+//        videoView = (VideoView) findViewById(R.id.videoView);
         btnThemQuanAn = (Button) findViewById(R.id.btnThemQuanAn);
         rdgTrangThai = (RadioGroup) findViewById(R.id.rdgTrangThai);
         edGiaThoiThieu = (EditText) findViewById(R.id.edGiaToiThieu);
         edGiaToiDa = (EditText) findViewById(R.id.edGiaToiDa);
         edTenQuanAn = (EditText) findViewById(R.id.edTenQuan);
+        edtChiNhanh=(EditText)findViewById(R.id.edTenChiNhanh);
 
         thucDonModelList = new ArrayList<>();
         khuVucList = new ArrayList<>();
@@ -143,7 +146,7 @@ public class ThemQuanAnActivity extends AppCompatActivity implements  View.OnCli
         imgHinhQuan4.setOnClickListener(this);
         imgHinhQuan5.setOnClickListener(this);
         imgHinhQuan6.setOnClickListener(this);
-        imgVideo.setOnClickListener(this);
+//        imgVideo.setOnClickListener(this);
         btnThemQuanAn.setOnClickListener(this);
 
     }
@@ -201,11 +204,22 @@ public class ThemQuanAnActivity extends AppCompatActivity implements  View.OnCli
                 }
                 break;
 
-            case RESULT_IMGTHUCDON:
-                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-                imgTam.setImageBitmap(bitmap);
-                hinhDaChup.add(bitmap);
-                break;
+//            case RESULT_IMGTHUCDON:
+//                if (requestCode == RESULT_IMGTHUCDON && resultCode == RESULT_OK) {
+//                    Bundle extras = (Bitmap)data.getExtras();
+//                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+////                    imgTam.setImageBitmap(imageBitmap);
+////                    hinhDaChup.add(extras);
+////                }
+////                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+////                imgTam.setImageBitmap(bitmap);
+////                hinhDaChup.add(bitmap);
+//                if(RESULT_OK == resultCode){
+//                    Uri uri = data.getData();
+//                    imgHinhQuan6.setImageURI(uri);
+//                    imgTam.add(uri);
+//                }
+//                break;
 
             case RESULT_VIDEO:
                 if(RESULT_OK == resultCode){
@@ -227,8 +241,8 @@ public class ThemQuanAnActivity extends AppCompatActivity implements  View.OnCli
         Button btnThemThucDOn = (Button) view.findViewById(R.id.btnThemThucDon);
         final EditText edTenMon = (EditText) view.findViewById(R.id.edTenMon);
         final EditText edGiaTien = (EditText) view.findViewById(R.id.edGiaTien);
-        ImageView imageChupHinh = (ImageView) view.findViewById(R.id.imgChupHinh);
-        imgTam = imageChupHinh;
+//        ImageView imageChupHinh = (ImageView) view.findViewById(R.id.imgChupHinh);
+//        imgTam = imageChupHinh;
 
         ArrayAdapter<String> adapterThucDon = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,thucDonList);
         spinnerThucDon.setAdapter(adapterThucDon);
@@ -237,39 +251,41 @@ public class ThemQuanAnActivity extends AppCompatActivity implements  View.OnCli
             LayDanhSachThucDon(adapterThucDon);
         }
 
-        imageChupHinh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent,RESULT_IMGTHUCDON);
-            }
-        });
+//        imageChupHinh.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+////                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+////                    startActivityForResult(takePictureIntent, RESULT_IMGTHUCDON);
+////                }
+//                ChonHinhTuGallary(RESULT_IMG1);
+//            }
+//        });
 
         btnThemThucDOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 v.setVisibility(View.GONE);
 
-                long thoigian = Calendar.getInstance().getTimeInMillis();
-                String tenhinh = String.valueOf(thoigian)+".jpg";
+//                long thoigian = Calendar.getInstance().getTimeInMillis();
+//                String tenhinh = String.valueOf(thoigian)+".jpg";
 
                 int position = spinnerThucDon.getSelectedItemPosition();
                 String maThucDon = thucDonModelList.get(position).getMathucdon();
 
                 MonAnModel monAnModel = new MonAnModel();
-                monAnModel.setTenmon(edTenMon.getText().toString());
-                monAnModel.setGiatien(Long.parseLong(edGiaTien.getText().toString()));
-                monAnModel.setHinhanh(tenhinh);
+//                monAnModel.setTenmon(edTenMon.getText().toString());
+//                monAnModel.setGiatien(Long.parseLong(edGiaTien.getText().toString()));
+//                monAnModel.setHinhanh(tenhinh);
 
                 ThemThucDonModel themThucDonModel = new ThemThucDonModel();
                 themThucDonModel.setMathucdon(maThucDon);
                 themThucDonModel.setMonAnModel(monAnModel);
 
-                themThucDonModelList.add(themThucDonModel);
+//                themThucDonModelList.add(themThucDonModel);
                 CloneThucDon();
             }
         });
-
         khungChuaThucDon.addView(view);
     }
 
@@ -344,6 +360,8 @@ public class ThemQuanAnActivity extends AppCompatActivity implements  View.OnCli
                 }
 
                 adapterThucDon.notifyDataSetChanged();
+
+
             }
 
             @Override
@@ -448,17 +466,18 @@ public class ThemQuanAnActivity extends AppCompatActivity implements  View.OnCli
                 ChonHinhTuGallary(RESULT_IMG6);
                 break;
 
-            case R.id.imgVideo:
-                Intent intent = new Intent();
-                intent.setType("video/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent,"Chọn video..."),RESULT_VIDEO);
-                break;
+//            case R.id.imgVideo:
+//                Intent intent = new Intent();
+//                intent.setType("video/*");
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivityForResult(Intent.createChooser(intent,"Chọn video..."),RESULT_VIDEO);
+//                break;
 
             case R.id.btnThemQuanAn:
                 ThemQuanAn();
                 break;
         }
+
     }
 
     private void ThemQuanAn(){
@@ -472,13 +491,21 @@ public class ThemQuanAnActivity extends AppCompatActivity implements  View.OnCli
         }else{
             giaoHang = false;
         }
-
         DatabaseReference nodeRoot = FirebaseDatabase.getInstance().getReference();
         DatabaseReference nodeQuanAn = nodeRoot.child("quanans");
         maQuanAn = nodeQuanAn.push().getKey();
 
         nodeRoot.child("khuvucs").child(khuvuc).push().setValue(maQuanAn);
-
+            int countChiNhanh =khungChuaChiNhanh.getChildCount();
+        for (int i=0;i<countChiNhanh;i++){
+            LinearLayout linear=(LinearLayout) khungChuaChiNhanh.getChildAt(i);
+            View edt = linear.getChildAt(0);
+            if (edt instanceof EditText){
+                EditText edtChiNhanh = (EditText)edt;
+                Log.d("Chinhanh:",((EditText) edt).getText().toString());
+                chiNhanhList.add(edtChiNhanh.getText().toString());
+            }
+        }
         for(String chinhanh : chiNhanhList){
             String urlGeoCoding = "https://maps.googleapis.com/maps/api/geocode/json?address="+chinhanh.replace(" ","%20")+"&key=AIzaSyBVd2D3evAh1Ip_f5nuN1P6ad-14G3Ns0g";
             DownloadToaDo downloadToaDo = new DownloadToaDo();
@@ -490,35 +517,72 @@ public class ThemQuanAnActivity extends AppCompatActivity implements  View.OnCli
         quanAnModel.setTenquanan(tenQuanAn);
         quanAnModel.setGiatoida(giaToiDa);
         quanAnModel.setGiatoithieu(giaToiThieu);
-        quanAnModel.setGiaohang(giaoHang);
-        quanAnModel.setVideogioithieu(videoSelected.getLastPathSegment());
+        quanAnModel.setGiaohang(false);
+        quanAnModel.setGiomocua(gioMoCua);
+        quanAnModel.setGiodongcua(gioDongCua);
+
+//        quanAnModel.setVideogioithieu(videoSelected.getLastPathSegment());
         quanAnModel.setTienich(selectedTienIchList);
         quanAnModel.setLuotthich(0);
 
-        nodeQuanAn.child(maQuanAn).setValue(quanAnModel).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
+        int ListElementprent = khungChuaThucDon.getChildCount();
+        themThucDonModelList.clear();
+        for(int i=0;i<ListElementprent;i++){
+            ThemThucDonModel themThucDonModel = new ThemThucDonModel();
+            MonAnModel monAnModel= new MonAnModel();
+            LinearLayout element =(LinearLayout) khungChuaThucDon.getChildAt(i);
 
-            }
-        });
+                LinearLayout ele = (LinearLayout)element.getChildAt(0);
+                LinearLayout ele1 = (LinearLayout)ele.getChildAt(0);
 
-        FirebaseStorage.getInstance().getReference().child("video/"+videoSelected.getLastPathSegment()).putFile(videoSelected);
+                for (int j=0;j<ele1.getChildCount();j++){
+                    View edt = ele1.getChildAt(j);
+                    if (edt instanceof  EditText){
+                        EditText editTen =(EditText)edt ;
+                  //Toast.makeText(ThemQuanAnActivity.this,editTen.getText()+"",Toast.LENGTH_SHORT).show();
+                  monAnModel.setTenmon(editTen.getText().toString());
+                    }
+                    if (edt instanceof LinearLayout ){
+                        LinearLayout chi2 = (LinearLayout)edt;
+                        int chi2count = chi2.getChildCount();
+                        for (int x=0;x<chi2count;x++){
+                            View eds= chi2.getChildAt(x);
+                            if (eds instanceof  EditText){
+                                EditText editGiaTien = (EditText) eds;
+                               monAnModel.setGiatien(Long.parseLong(editGiaTien.getText().toString()));
+                           // Toast.makeText(ThemQuanAnActivity.this,editGiaTien.getText()+"",Toast.LENGTH_SHORT).show();
+                            }
+                            if (eds instanceof Spinner){
+                                Spinner spinner = (Spinner)eds;
+                                String maThucDon = thucDonModelList.get(spinner.getSelectedItemPosition()).getMathucdon();
+                                themThucDonModel.setMathucdon(maThucDon);
+                                themThucDonModel.setMonAnModel(monAnModel);
+                             themThucDonModelList.add(themThucDonModel);
+//   Toast.makeText(ThemQuanAnActivity.this,spinner.getSelectedItemPosition()+"",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }
+
+        }
+
+      //  FirebaseStorage.getInstance().getReference().child("video/"+videoSelected.getLastPathSegment()).putFile(videoSelected);
         for(Uri hinhquan : hinhQuanAn){
-            FirebaseStorage.getInstance().getReference().child("hinhanh"+hinhquan.getLastPathSegment()).putFile(hinhquan);
-            nodeRoot.child("hinhanhquanans").child(maQuanAn).push().child(hinhquan.getLastPathSegment());
+            FirebaseStorage.getInstance().getReference().child("hinhquanan/"+hinhquan.getLastPathSegment()).putFile(hinhquan);
+            nodeRoot.child("hinhanhquanans").child(maQuanAn).push().setValue(hinhquan.getLastPathSegment());
         }
 
         for (int i=0 ;i< themThucDonModelList.size() ; i++){
-            nodeRoot.child("thucdonquanans").child(maQuanAn).child(themThucDonModelList.get(i).getMathucdon()).push().setValue(themThucDonModelList.get(i).getMonAnModel());
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            Bitmap bitmap = hinhDaChup.get(i);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] data = baos.toByteArray();
 
-            FirebaseStorage.getInstance().getReference().child("hinhanh/"+themThucDonModelList.get(i).getMonAnModel().getHinhanh()).putBytes(data);
-        }
+           nodeRoot.child("thucdonquanans").child(maQuanAn).child( themThucDonModelList.get(i).getMathucdon() ).push().setValue(themThucDonModelList.get(i).getMonAnModel());
 
-
+            }
+        nodeQuanAn.child(maQuanAn).setValue(quanAnModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+               finish();
+            }
+        });
     }
 
     class DownloadToaDo extends AsyncTask<String,Void,String> {
@@ -567,8 +631,9 @@ public class ThemQuanAnActivity extends AppCompatActivity implements  View.OnCli
                     ChiNhanhQuanAnModel chiNhanhQuanAnModel = new ChiNhanhQuanAnModel();
                     chiNhanhQuanAnModel.setDiachi(address);
                     chiNhanhQuanAnModel.setLatitude(latitude);
-                    chiNhanhQuanAnModel.setLatitude(longitude);
-
+                    chiNhanhQuanAnModel.setLongitude(longitude);
+                    Log.d("la:",chiNhanhQuanAnModel.getLatitude()+"");
+                    Log.d("lng:",chiNhanhQuanAnModel.getLongitude()+"");
                     FirebaseDatabase.getInstance().getReference().child("chinhanhquanans").child(maQuanAn).push().setValue(chiNhanhQuanAnModel);
                 }
             } catch (JSONException e) {

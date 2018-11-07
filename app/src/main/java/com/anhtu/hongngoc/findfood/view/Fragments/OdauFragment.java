@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.anhtu.hongngoc.findfood.R;
@@ -26,6 +27,7 @@ public class OdauFragment extends Fragment{
     private ProgressBar progressBar;
     private SharedPreferences sharedPreferences;
     private NestedScrollView nestedScrollView;
+
 
     @Nullable
     @Override

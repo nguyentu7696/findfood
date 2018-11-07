@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.NestedScrollView;
@@ -23,13 +24,16 @@ import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.TextView;
 
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.anhtu.hongngoc.findfood.Adapters.ApdaterBinhLuan;
 import com.anhtu.hongngoc.findfood.R;
 import com.anhtu.hongngoc.findfood.controller.ChiTietQuanController;
 import com.anhtu.hongngoc.findfood.controller.ThucDonController;
+import com.anhtu.hongngoc.findfood.model.BinhLuanModel;
 import com.anhtu.hongngoc.findfood.model.QuanAnModel;
+import com.anhtu.hongngoc.findfood.model.ThanhVienModel;
 import com.anhtu.hongngoc.findfood.model.TienIchModel;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -52,8 +56,10 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
     private TextView txtTenQuanAn, txtDiaChi, txtThoiGianHoatDong, txtTrangThaiHoatDong, txtTongSoHinhAnh, txtTongSoBinhLuan, txtTongSoCheckIn, txtTongSoLuuLai, txtTieuDeToolbar, txtGioiHanGia, txtTenWifi, txtMatKhauWifi, txtNgayDangWifi;
@@ -74,13 +80,12 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
     private ChiTietQuanController chiTietQuanController;
     private ThucDonController thucDonController;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main_chitietquanan);
-
         quanAnModel = getIntent().getParcelableExtra("quanan");
+
         Log.d("kiemtra", quanAnModel.getTenquanan());
 
         txtTenQuanAn = (TextView) findViewById(R.id.txtTenQuanAn);
@@ -218,12 +223,8 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
 
 
         //Load danh sach binh luan cua quan
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerViewBinhLuan.setLayoutManager(layoutManager);
-        adapterBinhLuan = new ApdaterBinhLuan(this, R.layout.custom_layout_binhluan, quanAnModel.getBinhLuanModelList());
-        recyclerViewBinhLuan.setAdapter(adapterBinhLuan);
-        adapterBinhLuan.notifyDataSetChanged();
 
+        loadComment();
         NestedScrollView nestedScrollViewChiTiet = (NestedScrollView) findViewById(R.id.nestScrollViewChiTiet);
         nestedScrollViewChiTiet.smoothScrollTo(0,0);
 
@@ -240,11 +241,31 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         thucDonController.getDanhSachThucDonQuanAnTheoMa(this,quanAnModel.getMaquanan(),recyclerThucDon);
 
     }
-
+    public void loadComment(){
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerViewBinhLuan.setLayoutManager(layoutManager);
+        adapterBinhLuan = new ApdaterBinhLuan(this, R.layout.custom_layout_binhluan, quanAnModel.getBinhLuanModelList());
+        recyclerViewBinhLuan.setAdapter(adapterBinhLuan);
+        adapterBinhLuan.notifyDataSetChanged();
+    }
     @Override
     protected void onStart() {
         super.onStart();
+
         adapterBinhLuan.notifyDataSetChanged();
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==123 && resultCode==RESULT_OK)
+        {
+
+            loadComment();
+
+        }
+
     }
 
     @Override
@@ -253,7 +274,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         switch (id){
             case R.id.khungTinhNang:
                 Intent iDanDuong = new Intent(this,DanDuongToiQuanAnActivity.class);
-                iDanDuong.putExtra("latitude",quanAnModel.getChiNhanhQuanAnModelList().get(0).getLatitude());
+                iDanDuong.putExtra("latitude", quanAnModel.getChiNhanhQuanAnModelList().get(0).getLatitude());
                 iDanDuong.putExtra("longitude",quanAnModel.getChiNhanhQuanAnModelList().get(0).getLongitude());
                 Log.d("leuleu", quanAnModel.getChiNhanhQuanAnModelList().get(0).getLatitude() + " - " + quanAnModel.getChiNhanhQuanAnModelList().get(0).getLongitude());
                 startActivity(iDanDuong);
@@ -264,7 +285,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
                 iBinhLuan.putExtra("maquanan",quanAnModel.getMaquanan());
                 iBinhLuan.putExtra("tenquan",quanAnModel.getTenquanan());
                 iBinhLuan.putExtra("diachi",quanAnModel.getChiNhanhQuanAnModelList().get(0).getDiachi());
-                startActivity(iBinhLuan);
+                startActivityForResult(iBinhLuan,123);
                 break;
         }
     }
