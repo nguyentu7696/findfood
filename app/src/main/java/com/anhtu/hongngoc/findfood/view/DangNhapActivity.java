@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anhtu.hongngoc.findfood.R;
+import com.anhtu.hongngoc.findfood.controller.DangKyController;
+import com.anhtu.hongngoc.findfood.model.ThanhVienModel;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -32,6 +37,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -39,7 +45,15 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -54,7 +68,7 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
     private Button btnDangNhap;
     private EditText edEmail,edPassword;
     FirebaseUser firebaseUser;
-
+    private DangKyController dangKyController;
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
     public static int KIEMTRA_PROVIDER_DANGNHAP = 0;
@@ -143,8 +157,11 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onSuccess(LoginResult loginResult) {
                 KIEMTRA_PROVIDER_DANGNHAP = 2;
+
                 Log.d(TAG, "facebook:onSuccess:" + loginResult.getAccessToken().getToken());
+
                 chungThucDangNhapFireBase(null, loginResult.getAccessToken());
+
             }
 
             @Override
@@ -255,7 +272,31 @@ public class DangNhapActivity extends AppCompatActivity implements View.OnClickL
 
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("mauser",firebaseUser.getUid());
+            String id = firebaseUser.getUid();
+
             editor.commit();
+            if (firebaseUser.getPhotoUrl()!=null&& firebaseUser.getEmail()!=null){
+//                DatabaseReference dataNodeThanhVien=FirebaseDatabase.getInstance().getReference().child("thanhviens");
+//                dataNodeThanhVien.child(id).child("hinhanh").setValue("h1.jpg");
+//                dataNodeThanhVien.child(id).child("hoten").push().setValue(firebaseUser.getEmail());
+                ThanhVienModel thanhVienModel = new ThanhVienModel();
+                thanhVienModel.setHoten(firebaseUser.getEmail());
+                thanhVienModel.setHinhanh("user2.png");
+                FirebaseStorage storage=FirebaseStorage.getInstance();
+                StorageReference storageReference=storage.getReference().child("thanhvien/"+firebaseUser.getUid()+".jpg");
+                storageReference.putFile(firebaseUser.getPhotoUrl()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    }
+                });
+                dangKyController = new DangKyController();
+                dangKyController.ThemThongTinThanhVienController(thanhVienModel,id);
+
+
+                URL imageurl = null;
+
+            }
 
             Intent iTrangChu = new Intent(this, TrangChuActivity.class);
             startActivity(iTrangChu);

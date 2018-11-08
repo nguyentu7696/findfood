@@ -193,28 +193,28 @@
 
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:layout_weight="1"
-                            >
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:orientation="vertical"-->
+                            <!--android:gravity="center"-->
+                            <!--android:layout_weight="1"-->
+                            <!--&gt;-->
 
-                            <TextView
-                                android:id="@+id/tongSoCheckIn"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="123"
-                                android:textStyle="bold"
-                                />
+                            <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:id="@+id/tongSoCheckIn"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:text="123"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:textStyle="bold"&ndash;&gt;-->
+                                <!--&lt;!&ndash;/>&ndash;&gt;-->
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/checkin" />
+                            <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:text="@string/checkin" />&ndash;&gt;-->
 
-                        </LinearLayout>
+                        <!--</LinearLayout>-->
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -239,28 +239,28 @@
 
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:layout_weight="1"
-                            >
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:orientation="vertical"-->
+                            <!--android:gravity="center"-->
+                            <!--android:layout_weight="1"-->
+                            <!--&gt;-->
 
-                            <TextView
-                                android:id="@+id/tongSoLuuLai"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="123"
-                                android:textStyle="bold"
-                                />
+                            <!--<TextView-->
+                                <!--android:id="@+id/tongSoLuuLai"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:text="123"-->
+                                <!--android:textStyle="bold"-->
+                                <!--/>-->
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/luulai" />
+                            <!--<TextView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:text="@string/luulai" />-->
 
-                        </LinearLayout>
+                        <!--</LinearLayout>-->
 
                     </LinearLayout>
 

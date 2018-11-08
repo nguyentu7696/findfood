@@ -89,6 +89,7 @@ public class DangKyActivity extends AppCompatActivity implements View.OnClickLis
                                 dangKyController.ThemThongTinThanhVienController(thanhVienModel,uid);
                                 Toast.makeText(DangKyActivity.this , "Authentication Successful.", Toast.LENGTH_SHORT).show();
                                 progressDialog.dismiss();
+                                finish();
                             } else {
                                 // If sign in fails, display a message to the user.
                                 System.out.println(task.getException());

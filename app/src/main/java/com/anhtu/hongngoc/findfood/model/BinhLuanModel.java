@@ -22,7 +22,7 @@ public class BinhLuanModel implements Parcelable{
     private ThanhVienModel thanhVienModel;
     private String noidung;
     private String tieude;
-    private String manbinhluan;
+    private String mabinhluan;
     private String mauser;
     private List<String> hinhanhBinhLuanList;
 
@@ -35,7 +35,7 @@ public class BinhLuanModel implements Parcelable{
         luotthich = in.readLong();
         noidung = in.readString();
         tieude = in.readString();
-        manbinhluan = in.readString();
+        mabinhluan = in.readString();
         mauser = in.readString();
         hinhanhBinhLuanList = in.createStringArrayList();
         thanhVienModel = in.readParcelable(ThanhVienModel.class.getClassLoader());
@@ -94,11 +94,11 @@ public class BinhLuanModel implements Parcelable{
     }
 
     public String getManbinhluan() {
-        return manbinhluan;
+        return mabinhluan;
     }
 
     public void setManbinhluan(String manbinhluan) {
-        this.manbinhluan = manbinhluan;
+        this.mabinhluan = manbinhluan;
     }
 
     public String getMauser() {
@@ -128,7 +128,7 @@ public class BinhLuanModel implements Parcelable{
         dest.writeLong(luotthich);
         dest.writeString(noidung);
         dest.writeString(tieude);
-        dest.writeString(manbinhluan);
+        dest.writeString(mabinhluan);
         dest.writeString(mauser);
         dest.writeStringList(hinhanhBinhLuanList);
         dest.writeParcelable(thanhVienModel,flags);

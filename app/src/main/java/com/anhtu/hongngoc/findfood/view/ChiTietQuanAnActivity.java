@@ -79,13 +79,14 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
 
     private ChiTietQuanController chiTietQuanController;
     private ThucDonController thucDonController;
+    List<BinhLuanModel> binhLuanModels= new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main_chitietquanan);
         quanAnModel = getIntent().getParcelableExtra("quanan");
-
+        binhLuanModels=quanAnModel.getBinhLuanModelList();
         Log.d("kiemtra", quanAnModel.getTenquanan());
 
         txtTenQuanAn = (TextView) findViewById(R.id.txtTenQuanAn);
@@ -93,9 +94,9 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         txtThoiGianHoatDong = (TextView) findViewById(R.id.txtThoiGianHoatDong);
         txtTrangThaiHoatDong = (TextView) findViewById(R.id.txtTrangThaiHoatDong);
         txtTongSoBinhLuan = (TextView) findViewById(R.id.tongSoBinhLuan);
-        txtTongSoCheckIn = (TextView) findViewById(R.id.tongSoCheckIn);
+//        txtTongSoCheckIn = (TextView) findViewById(R.id.tongSoCheckIn);
         txtTongSoHinhAnh = (TextView) findViewById(R.id.tongSoHinhAnh);
-        txtTongSoLuuLai = (TextView) findViewById(R.id.tongSoLuuLai);
+//        txtTongSoLuuLai = (TextView) findViewById(R.id.tongSoLuuLai);
         imHinhAnhQuanAn = (ImageView) findViewById(R.id.imHinhQuanAn);
         txtTieuDeToolbar = (TextView) findViewById(R.id.txtTieuDeToolbar);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -224,7 +225,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
 
         //Load danh sach binh luan cua quan
 
-        loadComment();
+        loadComment(binhLuanModels);
         NestedScrollView nestedScrollViewChiTiet = (NestedScrollView) findViewById(R.id.nestScrollViewChiTiet);
         nestedScrollViewChiTiet.smoothScrollTo(0,0);
 
@@ -241,10 +242,10 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         thucDonController.getDanhSachThucDonQuanAnTheoMa(this,quanAnModel.getMaquanan(),recyclerThucDon);
 
     }
-    public void loadComment(){
+    public void loadComment(List<BinhLuanModel> binhLuanModels){
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerViewBinhLuan.setLayoutManager(layoutManager);
-        adapterBinhLuan = new ApdaterBinhLuan(this, R.layout.custom_layout_binhluan, quanAnModel.getBinhLuanModelList());
+        adapterBinhLuan = new ApdaterBinhLuan(this, R.layout.custom_layout_binhluan, binhLuanModels);
         recyclerViewBinhLuan.setAdapter(adapterBinhLuan);
         adapterBinhLuan.notifyDataSetChanged();
     }
@@ -253,17 +254,13 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         super.onStart();
 
         adapterBinhLuan.notifyDataSetChanged();
-
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==123 && resultCode==RESULT_OK)
-        {
-
-            loadComment();
-
+        if (requestCode==123 && resultCode==RESULT_OK) {
+            finish();
         }
 
     }

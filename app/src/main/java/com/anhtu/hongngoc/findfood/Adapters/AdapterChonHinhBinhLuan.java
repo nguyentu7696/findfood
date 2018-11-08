@@ -41,17 +41,23 @@ public class AdapterChonHinhBinhLuan extends RecyclerView.Adapter<AdapterChonHin
 
     @Override
     public void onBindViewHolder(ViewHolderChonHinh holder, final int position) {
-        final ChonHinhBinhLuanModel chonHinhBinhLuanModel = listDuongDan.get(position);
-        Uri uri = Uri.parse(chonHinhBinhLuanModel.getDuongdan());
-        holder.imageView.setImageURI(uri);
-        holder.checkBox.setChecked(chonHinhBinhLuanModel.isCheck());
-        holder.checkBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CheckBox checkBox = (CheckBox) v;
-                listDuongDan.get(position).setCheck(checkBox.isChecked());
-            }
-        });
+        try{
+            final ChonHinhBinhLuanModel chonHinhBinhLuanModel = listDuongDan.get(position);
+            Uri uri = Uri.parse(chonHinhBinhLuanModel.getDuongdan());
+            holder.imageView.setImageURI(uri);
+            holder.checkBox.setChecked(chonHinhBinhLuanModel.isCheck());
+            holder.checkBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CheckBox checkBox = (CheckBox) v;
+                    listDuongDan.get(position).setCheck(checkBox.isChecked());
+                }
+            });
+        }
+        catch (Exception e){
+
+        }
+
     }
 
     @Override

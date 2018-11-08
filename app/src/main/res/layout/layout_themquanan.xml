@@ -39,28 +39,28 @@
                 android:inputType="number"
                 />
 
-            <RadioGroup
-                android:id="@+id/rdgTrangThai"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+            <!--<RadioGroup-->
+                <!--android:id="@+id/rdgTrangThai"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--&gt;-->
 
-                <RadioButton
-                    android:id="@+id/rdGiaoHang"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/giaohang"
-                    />
+                <!--<RadioButton-->
+                    <!--android:id="@+id/rdGiaoHang"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/giaohang"-->
+                    <!--/>-->
 
-                <RadioButton
-                    android:id="@+id/rdKhongGiaoHang"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/khonggiaohang"
-                    android:checked="true"
-                    />
-            </RadioGroup>
+                <!--<RadioButton-->
+                    <!--android:id="@+id/rdKhongGiaoHang"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/khonggiaohang"-->
+                    <!--android:checked="true"-->
+                    <!--/>-->
+            <!--</RadioGroup>-->
 
             <LinearLayout
                 android:layout_width="match_parent"

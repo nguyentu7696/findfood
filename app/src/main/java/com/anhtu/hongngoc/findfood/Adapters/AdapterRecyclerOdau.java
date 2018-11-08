@@ -84,15 +84,21 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
     public void onBindViewHolder(final AdapterRecyclerOdau.ViewHolder holder, int position) {
         final QuanAnModel quanAnModel = quanAnModelList.get(position);
         holder.txtTenQuanAnOdau.setText(quanAnModel.getTenquanan());
-        if(quanAnModel.isGiaohang()){
-            holder.btnDatMonOdau.setVisibility(View.VISIBLE);
-        }
+//        if(quanAnModel.isGiaohang()){
+//            holder.btnDatMonOdau.setVisibility(View.VISIBLE);
+//        }
         if(quanAnModel.getHinhanhquanan().size() > 0){
             holder.imageHinhQuanAnODau.setImageBitmap(quanAnModel.getBitmapList().get(0));
         }
 
         //Lấy danh sách bình luận của quán ăn
         if(quanAnModel.getBinhLuanModelList().size() > 0){
+
+            holder.cicleImageUser2.setVisibility(View.GONE);
+            holder.txtTieudebinhluan2.setVisibility(View.GONE);
+            holder.txtNodungbinhluan2.setVisibility(View.GONE);
+            holder.txtChamDiemBinhLuan2.setVisibility(View.GONE);
+
 
             BinhLuanModel binhLuanModel = quanAnModel.getBinhLuanModelList().get(0);
             holder.txtTieudebinhluan.setText(binhLuanModel.getTieude());
@@ -101,6 +107,12 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
             setHinhAnhBinhLuan(holder.cicleImageUser,binhLuanModel.getThanhVienModel().getHinhanh());
 
             if(quanAnModel.getBinhLuanModelList().size() > 1) {
+
+                holder.cicleImageUser2.setVisibility(View.VISIBLE);
+                holder.txtTieudebinhluan2.setVisibility(View.VISIBLE);
+                holder.txtNodungbinhluan2.setVisibility(View.VISIBLE);
+                holder.txtChamDiemBinhLuan2.setVisibility(View.VISIBLE);
+
                 BinhLuanModel binhLuanModel2 = quanAnModel.getBinhLuanModelList().get(1);
                 holder.txtTieudebinhluan2.setText(binhLuanModel2.getTieude());
                 holder.txtNodungbinhluan2.setText(binhLuanModel2.getNoidung());
@@ -154,16 +166,22 @@ public class AdapterRecyclerOdau extends RecyclerView.Adapter<AdapterRecyclerOda
 
 
     private void setHinhAnhBinhLuan(final CircleImageView circleImageView, String linkhinh){
-        StorageReference storageHinhUser = FirebaseStorage.getInstance().getReference()
-                .child("thanhvien").child(linkhinh);
-        long ONE_MEGABYTE = 1024 * 1024;
-        storageHinhUser.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-                circleImageView.setImageBitmap(bitmap);
-            }
-        });
+        try{
+            StorageReference storageHinhUser = FirebaseStorage.getInstance().getReference()
+                    .child("thanhvien").child(linkhinh);
+            long ONE_MEGABYTE = 1024 * 1024;
+            storageHinhUser.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                    circleImageView.setImageBitmap(bitmap);
+                }
+            });
+        }
+        catch (Exception e){
+
+        }
+
     }
 
     @Override
