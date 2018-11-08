@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.anhtu.hongngoc.findfood.Adapters.AdapterHienThiHinhBinhLuanDuocChon;
 import com.anhtu.hongngoc.findfood.R;
@@ -27,7 +28,7 @@ public class BinhLuanActivity extends AppCompatActivity implements View.OnClickL
 
     TextView txtTenQuanAn, txtDiaChiQuanAn,txtDangBinhLuan;
     Toolbar toolbar;
-    EditText edTieuDeBinhLuan,edNoiDungBinhLuan;
+    EditText edTieuDeBinhLuan,edNoiDungBinhLuan,edtPoint;
     ImageButton btnChonHinh;
     RecyclerView recyclerViewChonHinhBinhLuan;
     AdapterHienThiHinhBinhLuanDuocChon adapterHienThiHinhBinhLuanDuocChon;
@@ -56,6 +57,7 @@ public class BinhLuanActivity extends AppCompatActivity implements View.OnClickL
         txtDangBinhLuan = (TextView) findViewById(R.id.txtDangBinhLuan);
         edTieuDeBinhLuan = (EditText) findViewById(R.id.edTieuDeBinhLuan);
         edNoiDungBinhLuan = (EditText) findViewById(R.id.edNoiDungBinhLuan);
+        edtPoint=(EditText)findViewById(R.id.edtPoint);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         btnChonHinh = (ImageButton) findViewById(R.id.btnChonHinh);
         recyclerViewChonHinhBinhLuan = (RecyclerView) findViewById(R.id.recyclerChonHinhBinhLuan);
@@ -99,9 +101,13 @@ public class BinhLuanActivity extends AppCompatActivity implements View.OnClickL
                 binhLuanModel.setChamdiem(0);
                 binhLuanModel.setLuotthich(0);
                 binhLuanModel.setMauser(mauser);
-
+                if (Double.parseDouble(edtPoint.getText().toString())>10||Double.parseDouble(edtPoint.getText().toString())<0){
+                    Toast.makeText(BinhLuanActivity.this,"Điểm nhập không đúng",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                binhLuanModel.setChamdiem(Double.parseDouble(edtPoint.getText().toString()));
                 binhLuanController.ThemBinhLuan(maquanan,binhLuanModel,listHinhDuocChon);
-               setResult(RESULT_OK);
+                setResult(RESULT_OK);
                finish();
                 break;
         }

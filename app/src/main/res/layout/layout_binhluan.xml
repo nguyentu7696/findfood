@@ -59,8 +59,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Tiêu đề ( không bắt buộc )"
-        android:textSize="12sp"
+        android:textSize="18dp"
         android:background="#FFF"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Điểm(Thang điểm 10)"
+        android:textSize="16dp"
+        android:inputType="number"
+        android:id="@+id/edtPoint"
         />
 
     <View

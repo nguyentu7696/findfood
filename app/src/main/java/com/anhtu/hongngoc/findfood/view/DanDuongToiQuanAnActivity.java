@@ -49,7 +49,7 @@ public class DanDuongToiQuanAnActivity extends AppCompatActivity implements OnMa
         vitrihientai.setLatitude(Double.parseDouble(sharedPreferences.getString("latitude", "0")));
         vitrihientai.setLongitude(Double.parseDouble(sharedPreferences.getString("longitude", "0")));
 
-        duongdan = "https://maps.googleapis.com/maps/api/directions/json?origin=" + vitrihientai.getLatitude() + "," + vitrihientai.getLongitude() + "&destination=" +21.025105 + "," + 105.854773 + "&language=vi&key=AIzaSyBpfJaPQRklPRk4cbDKCEtYyJyuqOoGYes";
+        duongdan = "https://maps.googleapis.com/maps/api/directions/json?origin=20.984529,105.838845&destination=" +latitude + "," + longitude + "&language=vi&key=AIzaSyBt1r1RSw3srdsUF_l5rTskoolsNqBXg1I";
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -76,15 +76,15 @@ public class DanDuongToiQuanAnActivity extends AppCompatActivity implements OnMa
         }
         googleMap.setMyLocationEnabled(true);
 
-        LatLng latLng = new LatLng( vitrihientai.getLatitude(),vitrihientai.getLongitude());
+        LatLng latLng = new LatLng( 20.984529,105.838845);
         Log.d("lati",String.valueOf(vitrihientai.getLatitude()) );
 
 //        vitrihientai.getLatitude(),vitrihientai.getLongitude()
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        googleMap.addMarker(markerOptions);
+//        MarkerOptions markerOptions = new MarkerOptions();
+//        markerOptions.position(latLng);
+//        googleMap.addMarker(markerOptions);
 
-        LatLng vitriquanan = new LatLng(21.025105, 105.854773);
+        LatLng vitriquanan = new LatLng(latitude, longitude);
         MarkerOptions markervitriquanan = new MarkerOptions();
         markervitriquanan.position(vitriquanan);
         googleMap.addMarker(markervitriquanan);

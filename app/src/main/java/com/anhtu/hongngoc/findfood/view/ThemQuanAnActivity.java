@@ -112,7 +112,7 @@ public class ThemQuanAnActivity extends AppCompatActivity implements  View.OnCli
 //        imgVideo = (ImageView) findViewById(R.id.imgVideo);
 //        videoView = (VideoView) findViewById(R.id.videoView);
         btnThemQuanAn = (Button) findViewById(R.id.btnThemQuanAn);
-        rdgTrangThai = (RadioGroup) findViewById(R.id.rdgTrangThai);
+       // rdgTrangThai = (RadioGroup) findViewById(R.id.rdgTrangThai);
         edGiaThoiThieu = (EditText) findViewById(R.id.edGiaToiThieu);
         edGiaToiDa = (EditText) findViewById(R.id.edGiaToiDa);
         edTenQuanAn = (EditText) findViewById(R.id.edTenQuan);
@@ -484,13 +484,13 @@ public class ThemQuanAnActivity extends AppCompatActivity implements  View.OnCli
         String tenQuanAn = edTenQuanAn.getText().toString();
         long giaToiDa = Long.parseLong(edGiaToiDa.getText().toString());
         long giaToiThieu = Long.parseLong(edGiaThoiThieu.getText().toString());
-        int idRadioSelected = rdgTrangThai.getCheckedRadioButtonId();
+       // int idRadioSelected = rdgTrangThai.getCheckedRadioButtonId();
         boolean giaoHang = false;
-        if(idRadioSelected == R.id.rdGiaoHang){
-            giaoHang = true;
-        }else{
-            giaoHang = false;
-        }
+//        if(idRadioSelected == R.id.rdGiaoHang){
+//            giaoHang = true;
+//        }else{
+//            giaoHang = false;
+//        }
         DatabaseReference nodeRoot = FirebaseDatabase.getInstance().getReference();
         DatabaseReference nodeQuanAn = nodeRoot.child("quanans");
         maQuanAn = nodeQuanAn.push().getKey();

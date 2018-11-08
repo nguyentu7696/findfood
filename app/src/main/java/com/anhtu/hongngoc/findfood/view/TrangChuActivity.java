@@ -1,5 +1,6 @@
 package com.anhtu.hongngoc.findfood.view;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
@@ -7,12 +8,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.anhtu.hongngoc.findfood.Adapters.AdapterViewPagerTrangChu;
 import com.anhtu.hongngoc.findfood.R;
+import com.anhtu.hongngoc.findfood.view.Fragments.AnGiFragment;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class TrangChuActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener, RadioGroup.OnCheckedChangeListener{
 
@@ -20,6 +25,7 @@ public class TrangChuActivity extends AppCompatActivity implements View.OnClickL
     private RadioButton rdOdau, rdAngi;
     private RadioGroup groupOdauAngi;
     private ImageView themquanan;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +41,7 @@ public class TrangChuActivity extends AppCompatActivity implements View.OnClickL
 
 
         themquanan.setOnClickListener(this);
+
     }
 
     @Override
@@ -93,6 +100,7 @@ public class TrangChuActivity extends AppCompatActivity implements View.OnClickL
                 Intent intent = new Intent(this, ThemQuanAnActivity.class);
                 startActivity(intent);
                 break;
+
         }
     }
 }
