@@ -6,14 +6,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-
-    <uses-feature android:name="android.hardware.location.gps" />
-
-    <!--<uses-permission-->
-        <!--android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>-->
-    <!--<uses-permission-->
-        <!--android:name="android.permission.READ_EXTERNAL_STORAGE"/>-->
-
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,7 +21,7 @@
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBI1i8s-7_HfKFDM-BspPA0nRbKwr4GhLI" />
+            android:value="@string/google_maps_key" />
 
         <activity android:name=".view.SlashScreenActivity">
             <intent-filter>
@@ -56,6 +52,32 @@
         </activity>
 
         <activity android:name=".view.HienThiChiTietBinhLuanActivity">
+
+        </activity>
+
+        <activity android:name=".view.CapNhatDanhSachWifiActivity">
+
+        </activity>
+
+        <activity android:name=".view.PopupCapNhatWifiActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog"
+            >
+
+        </activity>
+
+        <activity android:name=".view.DanDuongToiQuanAnActivity">
+
+        </activity>
+
+        <activity android:name=".view.BinhLuanActivity">
+
+        </activity>
+
+        <activity android:name=".view.ChonHinhBinhLuanActivity">
+
+        </activity>
+
+        <activity android:name=".view.ThemQuanAnActivity">
 
         </activity>
 

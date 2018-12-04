@@ -1,5 +1,9 @@
 package com.anhtu.hongngoc.findfood.model;
 
+import android.content.Context;
+import android.widget.Toast;
+
+import com.anhtu.hongngoc.findfood.R;
 import com.anhtu.hongngoc.findfood.controller.interfaces.ChiTietQuanAnInterface;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,7 +47,7 @@ public class WifiQuanAnModel {
     public void LayDanhSachWifiQuanAn(String maquan, final ChiTietQuanAnInterface chiTietQuanAnInterface){
         nodeWifiQuanAn = FirebaseDatabase.getInstance().getReference().child("wifiquanans").child(maquan);
 
-        nodeWifiQuanAn.addListenerForSingleValueEvent(new ValueEventListener() {
+        nodeWifiQuanAn.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -59,6 +63,16 @@ public class WifiQuanAnModel {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    public void ThemWifiQuanAn(final Context context, WifiQuanAnModel wifiQuanAnModel, String maquanan){
+        DatabaseReference dataNodeWifiQuanAn = FirebaseDatabase.getInstance().getReference().child("wifiquanans").child(maquanan);
+        dataNodeWifiQuanAn.push().setValue(wifiQuanAnModel, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                Toast.makeText(context,context.getResources().getString(R.string.themthanhcong),Toast.LENGTH_SHORT).show();
             }
         });
     }

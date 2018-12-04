@@ -1,20 +1,31 @@
 package com.anhtu.hongngoc.findfood.view;
 
+import android.app.Fragment;
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.anhtu.hongngoc.findfood.Adapters.AdapterViewPagerTrangChu;
 import com.anhtu.hongngoc.findfood.R;
+import com.anhtu.hongngoc.findfood.view.Fragments.AnGiFragment;
+import com.google.firebase.auth.FirebaseAuth;
 
-public class TrangChuActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, RadioGroup.OnCheckedChangeListener{
+public class TrangChuActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener, RadioGroup.OnCheckedChangeListener{
 
     private ViewPager viewPagerTrangChu;
     private RadioButton rdOdau, rdAngi;
     private RadioGroup groupOdauAngi;
+    private ImageView themquanan;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,18 +35,29 @@ public class TrangChuActivity extends AppCompatActivity implements ViewPager.OnP
         viewPagerTrangChu = (ViewPager) findViewById(R.id.viewpager_trangchu);
         rdOdau = (RadioButton) findViewById(R.id.rd_odau);
         rdAngi = (RadioButton) findViewById(R.id.rd_angi);
+        themquanan = (ImageView) findViewById(R.id.themquanan);
+
         groupOdauAngi = (RadioGroup) findViewById(R.id.group_odau_angi);
 
+
+        themquanan.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         AdapterViewPagerTrangChu adapterViewPagerTrangChu = new AdapterViewPagerTrangChu(getSupportFragmentManager());
         viewPagerTrangChu.setAdapter(adapterViewPagerTrangChu);
 
         viewPagerTrangChu.addOnPageChangeListener(this);
 
         groupOdauAngi.setOnCheckedChangeListener(this);
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
     }
 
@@ -68,6 +90,17 @@ public class TrangChuActivity extends AppCompatActivity implements ViewPager.OnP
             case R.id.rd_odau:
                 viewPagerTrangChu.setCurrentItem(0);
                 break;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.themquanan:
+                Intent intent = new Intent(this, ThemQuanAnActivity.class);
+                startActivity(intent);
+                break;
+
         }
     }
 }

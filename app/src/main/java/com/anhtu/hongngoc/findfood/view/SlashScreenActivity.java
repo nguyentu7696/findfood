@@ -2,11 +2,13 @@ package com.anhtu.hongngoc.findfood.view;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Handler;
@@ -17,6 +19,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.pm.ActivityInfoCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +35,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 
 public class SlashScreenActivity extends AppCompatActivity {
@@ -55,25 +60,6 @@ public class SlashScreenActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("toado", MODE_PRIVATE);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        try {
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(),0);
-            txtPhienBan.setText( getString(R.string.phienban) + packageInfo.versionName);
-
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent iDangNhap = new Intent(SlashScreenActivity.this, DangNhapActivity.class);
-                    startActivity(iDangNhap);
-                    finish();
-                }
-            },2000);
-
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
     }
 
     @Override
@@ -91,16 +77,30 @@ public class SlashScreenActivity extends AppCompatActivity {
         mFusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                if (location != null) {
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("latitude", String.valueOf(location.getLatitude()));
-                    editor.putString("longitude", String.valueOf(location.getLongitude()));
-                    editor.commit();
-                }else{
-                    Toast.makeText(SlashScreenActivity.this, "Khong lay duoc vi tri.",
-                            Toast.LENGTH_SHORT).show();
-                }
+            if (location != null) {
+                //Toast.makeText(SlashScreenActivity.this, "vi tri: " + String.valueOf(location.getLatitude()) + String.valueOf(location.getLongitude()), Toast.LENGTH_SHORT).show();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("latitude", String.valueOf(location.getLatitude()));
+                editor.putString("longitude", String.valueOf(location.getLongitude()));
+                editor.commit();
+            }
+            try {
+                PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(),0);
+                txtPhienBan.setText( getString(R.string.phienban) + packageInfo.versionName);
 
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent iDangNhap = new Intent(SlashScreenActivity.this, DangNhapActivity.class);
+                        startActivity(iDangNhap);
+                        finish();
+                    }
+                },2000);
+
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
             }
         });
     }
@@ -129,4 +129,5 @@ public class SlashScreenActivity extends AppCompatActivity {
                 break;
         }
     }
+
 }

@@ -7,7 +7,9 @@
     <string name="matkhau">Mật khẩu</string>
     <string name="dangnhap">Đăng nhập</string>
     <string name="hoac">Hoặc</string>
-    <string name="facebook_app_id">2302057840007203</string>
+    <!--<string name="google_maps_key">AIzaSyCGMpfrNV1xvZhNKJZDXr3v1HV4vvfenN8</string>-->
+    <string name="google_maps_key">AIzaSyCnYkaUPsMIqQG-4CIYeh2dLnZmvp0qZvs</string>
+    <string name="facebook_app_id">256266828405020</string>
     <string name="dangnhapfacebook">Đăng nhập bằng Facebook</string>
     <string name="dangnhapbanggoogle">Đăng nhập bằng Google</string>
     <string name="quenmatkhau">Quên mật khẩu ?</string>
@@ -25,8 +27,8 @@
     <string name="chuoithanhvien">Bạn không phải là thành viên ? </string>
     <string name="thongbaoemailkhonghople">Email không lệ !</string>
     <string name="thongbaoguimailthanhcong">Gữi email thành công !</string>
-    <string name="odau">Ở đâu</string>
-    <string name="angi">Ăn gì ?</string>
+    <string name="odau">Quán ăn</string>
+    <string name="angi">Người dùng</string>
     <string name="moinhat">Mới nhất</string>
     <string name="danhmuc">Danh mục</string>
     <string name="khuvuc">HCM</string>

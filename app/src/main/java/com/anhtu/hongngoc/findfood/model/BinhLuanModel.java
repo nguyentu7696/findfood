@@ -1,8 +1,19 @@
 package com.anhtu.hongngoc.findfood.model;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
 import java.util.List;
 
 public class BinhLuanModel implements Parcelable{
@@ -11,7 +22,7 @@ public class BinhLuanModel implements Parcelable{
     private ThanhVienModel thanhVienModel;
     private String noidung;
     private String tieude;
-    private String manbinhluan;
+    private String mabinhluan;
     private String mauser;
     private List<String> hinhanhBinhLuanList;
 
@@ -24,7 +35,7 @@ public class BinhLuanModel implements Parcelable{
         luotthich = in.readLong();
         noidung = in.readString();
         tieude = in.readString();
-        manbinhluan = in.readString();
+        mabinhluan = in.readString();
         mauser = in.readString();
         hinhanhBinhLuanList = in.createStringArrayList();
         thanhVienModel = in.readParcelable(ThanhVienModel.class.getClassLoader());
@@ -83,11 +94,11 @@ public class BinhLuanModel implements Parcelable{
     }
 
     public String getManbinhluan() {
-        return manbinhluan;
+        return mabinhluan;
     }
 
     public void setManbinhluan(String manbinhluan) {
-        this.manbinhluan = manbinhluan;
+        this.mabinhluan = manbinhluan;
     }
 
     public String getMauser() {
@@ -117,9 +128,46 @@ public class BinhLuanModel implements Parcelable{
         dest.writeLong(luotthich);
         dest.writeString(noidung);
         dest.writeString(tieude);
-        dest.writeString(manbinhluan);
+        dest.writeString(mabinhluan);
         dest.writeString(mauser);
         dest.writeStringList(hinhanhBinhLuanList);
         dest.writeParcelable(thanhVienModel,flags);
+    }
+
+    public void ThemBinhLuan(String maQuanAn, BinhLuanModel binhLuanModel, final List<String> listHinh){
+        DatabaseReference nodeBinhLuan = FirebaseDatabase.getInstance().getReference().child("binhluans");
+        String mabinhluan =  nodeBinhLuan.child(maQuanAn).push().getKey();
+
+        nodeBinhLuan.child(maQuanAn).child(mabinhluan).setValue(binhLuanModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+
+                    if(listHinh.size() > 0){
+                        for(String valueHinh : listHinh){
+                            Uri uri = Uri.fromFile(new File(valueHinh));
+                            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("hinhquanan/"+uri.getLastPathSegment());
+                            storageReference.putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+
+                                }
+                            });
+                        }
+                    }
+
+                }
+            }
+        });
+
+
+        if(listHinh.size() > 0){
+            for(String valueHinh : listHinh){
+                Uri uri = Uri.fromFile(new File(valueHinh));
+                FirebaseDatabase.getInstance().getReference().child("hinhanhbinhluans").child(mabinhluan).push().setValue(uri.getLastPathSegment());
+            }
+        }
+
+
     }
 }
