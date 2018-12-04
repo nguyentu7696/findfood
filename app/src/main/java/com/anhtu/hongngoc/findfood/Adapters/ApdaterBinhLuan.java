@@ -68,7 +68,7 @@ public class ApdaterBinhLuan extends RecyclerView.Adapter<ApdaterBinhLuan.ViewHo
             setHinhAnhBinhLuan(holder.circleImageView,binhLuanModel.getThanhVienModel().getHinhanh());
             final List<Bitmap>  bitmapList = new ArrayList<>();
             for (String linkhinh : binhLuanModel.getHinhanhBinhLuanList()){
-                StorageReference storageHinhUser = FirebaseStorage.getInstance().getReference().child("hinhquanan").child(linkhinh);
+                StorageReference storageHinhUser = FirebaseStorage.getInstance().getReference().child(linkhinh);
                 long ONE_MEGABYTE = 1024 * 1024;
                 storageHinhUser.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                     @Override

@@ -50,7 +50,7 @@ public class HienThiChiTietBinhLuanActivity extends AppCompatActivity {
         setHinhAnhBinhLuan(circleImageView,binhLuanModel.getThanhVienModel().getHinhanh());
 
         for (String linkhinh : binhLuanModel.getHinhanhBinhLuanList()){
-            StorageReference storageHinhUser = FirebaseStorage.getInstance().getReference().child("hinhquanan").child(linkhinh);
+            StorageReference storageHinhUser = FirebaseStorage.getInstance().getReference().child(linkhinh);
             long ONE_MEGABYTE = 1024 * 1024;
             storageHinhUser.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override
