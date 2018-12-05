@@ -51,7 +51,6 @@ public class OdauController {
 
                 for(String linkhinh : quanAnModel.getHinhanhquanan()){
                     StorageReference storageHinhAnh = FirebaseStorage.getInstance().getReference()
-                            .child("hinhquanan")
                             .child(linkhinh);
                     final long ONE_MEGABYTE = 1024 * 1024;
                     storageHinhAnh.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {

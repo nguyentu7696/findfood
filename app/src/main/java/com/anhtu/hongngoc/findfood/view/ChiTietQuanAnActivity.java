@@ -182,7 +182,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
             txtGioiHanGia.setVisibility(View.INVISIBLE);
         }
 
-        StorageReference storageHinhQuanAn = FirebaseStorage.getInstance().getReference().child("hinhquanan").child(quanAnModel.getHinhanhquanan().get(0));
+        StorageReference storageHinhQuanAn = FirebaseStorage.getInstance().getReference().child(quanAnModel.getHinhanhquanan().get(0));
         long ONE_MEGABYTE = 1024 * 1024;
         storageHinhQuanAn.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
@@ -333,7 +333,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         TienIchModel tienIchModel = dataSnapshot.getValue(TienIchModel.class);
 
-                        StorageReference storageHinhQuanAn = FirebaseStorage.getInstance().getReference().child("hinhtienich").child(tienIchModel.getHinhtienich());
+                        StorageReference storageHinhQuanAn = FirebaseStorage.getInstance().getReference().child(tienIchModel.getHinhtienich());
                         long ONE_MEGABYTE = 1024 * 1024;
                         storageHinhQuanAn.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                             @Override

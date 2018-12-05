@@ -569,7 +569,7 @@ public class ThemQuanAnActivity extends AppCompatActivity implements  View.OnCli
       //  FirebaseStorage.getInstance().getReference().child("video/"+videoSelected.getLastPathSegment()).putFile(videoSelected);
         for(Uri hinhquan : hinhQuanAn){
             FirebaseStorage.getInstance().getReference().child("hinhquanan/"+hinhquan.getLastPathSegment()).putFile(hinhquan);
-            nodeRoot.child("hinhanhquanans").child(maQuanAn).push().setValue(hinhquan.getLastPathSegment());
+            nodeRoot.child("hinhanhquanans").child(maQuanAn).push().setValue("hinhquanan/"+hinhquan.getLastPathSegment());
         }
 
         for (int i=0 ;i< themThucDonModelList.size() ; i++){
